@@ -1,2 +1,3 @@
+from config.db import user_collection
 def registerService(data):
-    return data
+    return data.model_dump()

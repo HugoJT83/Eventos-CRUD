@@ -5,28 +5,35 @@ import logo from '../assets/app_logo.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-library.add(fas)
+import { far } from '@fortawesome/free-regular-svg-icons'
+library.add(fas,far)
+/* 
+Para añadir un fontawesome:
+<FontAwesomeIcon icon="fa-solid fa-house"></FontAwesomeIcon>
+*/
 
 const Header = () => {
   return (
     <>
         <header className="text-gray-600 body-font">
-            <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                    <img src={logo} className='max-w-15' alt="" />
-                    <span className="ml-3 text-xl">Eventos</span>
+            <div className="flex min-w-full justify-between p-5">
+                <a className="flex items-center max-w-15">
+                    <img src={logo} className='' alt="" />
+                    <span className="text-3xl font-Bitcount mt-2 ml-2">Eventos</span>
                 </a>
-                <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                    <a className="mr-5 hover:text-gray-900">First Link <FontAwesomeIcon icon="fa-solid fa-house"></FontAwesomeIcon></a>
-                    <a className="mr-5 hover:text-gray-900">Second Link</a>
-                    <a className="mr-5 hover:text-gray-900">Third Link</a>
-                    <a className="mr-5 hover:text-gray-900">Fourth Link</a>
-                </nav>
-                <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
-                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} className="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
+                
+                <div className='flex items-center'>
+                <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">
+                    Registrarse
+                    <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
                 </button>
+
+                <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">Iniciar Sesión
+                    <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
+                </button>
+
+                </div>
+                
             </div>
         </header>
 

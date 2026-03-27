@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../assets/app_logo.svg'
+import { Link } from 'react-router-dom'
 
 /* FontAwesome */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,20 +18,26 @@ const Header = () => {
     <>
         <header className="text-gray-600 body-font">
             <div className="flex min-w-full justify-between p-5">
-                <a className="flex items-center max-w-15">
-                    <img src={logo} className='' alt="" />
-                    <span className="text-3xl font-Bitcount mt-2 ml-2">Eventos</span>
-                </a>
+                
+                <Link to={'/'} className="flex items-center max-w-15">
+                <img src={logo} className='' alt="" />
+                <span className="text-3xl font-Bitcount mt-2 ml-2">Eventos</span>
+                </Link>
+                
                 
                 <div className='flex items-center'>
-                <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">
-                    Registrarse
-                    <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
-                </button>
-
-                <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">Iniciar Sesión
-                    <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
-                </button>
+                    <Link to={'/register'}>
+                        <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            Registrarse
+                            <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
+                        </button>
+                    </Link>
+                    <Link to={'/login'}>
+                        <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">Iniciar Sesión
+                            <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
+                        </button>
+                    </Link>
+                
 
                 </div>
                 

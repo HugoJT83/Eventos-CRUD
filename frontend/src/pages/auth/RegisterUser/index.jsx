@@ -5,45 +5,116 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { Link } from 'react-router-dom'
+import AuthButton from '../../../components/ui/AuthButton'
+import {Formik, Form, Field, ErrorMessage} from 'formik'
+import * as yup from 'yup'
+import { ROLE_TYPE } from '../../../constant/auth.constant'
+import { axiosClient } from '../../../utils/axiosClient'
+
 library.add(fas,far)
 
 
 const RegisterUser = () => {
+
+  const ValidationSchema = yup.object({
+      name: yup.string().required("El nombre y los apellidos son obligatorios"),
+      email:yup.string().required('El correo electrónico es obligatorio'),
+      password:yup.string().required('La contraseña es obligatoria').min(8, "La contraseña debe tener más de 8 caracteres"),
+      role:yup.string().required("Role is Required").oneOf(Object.keys(ROLE_TYPE), "Elige un rol valido")
+    })
+  
+    const onSubmitHandler = async(values,helpers)=>{
+      console.log(values)
+      const response = await axiosClient.post("/auth/register",values)
+      const data = response.data
+  
+      console.log(data)
+      helpers.resetForm()
+    }
+  
+    const initialValues = {
+      name:'',
+      email:'',
+      password:'',
+      role:ROLE_TYPE.USER
+    }
+
   return (
     <>
-      <section className="text-gray-600 body-font">
-        <Link to={'/'}>
-        <button className='m-3 font-Bitcount hover:cursor-pointer text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
-          <FontAwesomeIcon icon='fa-solid fa-arrow-left' className='pr-2'></FontAwesomeIcon>
-          Volver
-        </button>
-        </Link>
-        <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
-          <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-            <h1 className="title-font font-medium text-3xl text-gray-900 font-Bitcount">Encuentra eventos de tu interés y conecta</h1>
-            <p className="leading-relaxed mt-4">Regístrate ahora y comienza a buscar; seguro que encuentras algo que llame tu atención.</p>
-          </div>
-          <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-            <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Introduce tus datos</h2>
-            <div className="relative mb-4">
-              <label htmlFor="full-name" className="leading-7 text-sm text-gray-600">Nombre y Apellidos</label>
-              <input type="text" id="full-name" name="full-name" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-            </div>
-            <div className="relative mb-4">
-              <label htmlFor="email" className="leading-7 text-sm text-gray-600">Correo Electrónico</label>
-              <input type="email" id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-            </div>
-            <div className="relative mb-4">
-              <label htmlFor="password" className="leading-7 text-sm text-gray-600">Contraseña</label>
-              <input type="password" id="password" name="password" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-            </div>
-            <button className="hover:cursor-pointer font-Bitcount text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Registrarse
+      <Formik
+        validationSchema={ValidationSchema}
+        onSubmit={onSubmitHandler}
+        initialValues={initialValues}
+      >
+        <Form className="text-gray-600 body-font ">
+          
+          {/* Volver */}
+          <Link to={'/'}>
+            <button className='m-3 font-Bitcount hover:cursor-pointer text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
+              <FontAwesomeIcon icon='fa-solid fa-arrow-left' className='pr-2'></FontAwesomeIcon>
+              Volver
             </button>
-            <p className="text-xs text-gray-500 mt-3">Será un momento, no te preocupes.</p>
+          </Link>
+
+
+          <div className="container px-5 py-24 mx-auto flex flex-wrap items-center pl-40 pr-40">
+            
+            {/* Texto */}
+            <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+              <h1 className="title-font font-medium text-3xl text-gray-900 font-Bitcount">Encuentra eventos de tu interés y conecta</h1>
+              <p className="leading-relaxed mt-4">Regístrate ahora y comienza a buscar; seguro que encuentras algo que llame tu atención.</p>
+            </div>
+
+            <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+              <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Introduce tus datos</h2>
+              
+              {/* Nombre y apellidos */}
+              <div className="relative mb-4">
+                <label htmlFor="name" className="leading-7 text-sm text-gray-600">Nombre y Apellidos</label>
+                <Field type="text" id="name" name="name" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                <ErrorMessage name='name' className='text-red-500' component={'p'}/>
+              </div>
+              
+              {/* Correo electrónico */}
+              <div className="relative mb-4">
+                <label htmlFor="email" className="leading-7 text-sm text-gray-600">Correo Electrónico</label>
+                <Field type="email" id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                <ErrorMessage name='email' className='text-red-500' component={'p'}/>
+                
+              </div>
+              
+              {/* contraseña */}
+              <div className="relative mb-4">
+                <label htmlFor="password" className="leading-7 text-sm text-gray-600">Contraseña</label>
+                <Field type="password" id="password" name="password" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                <ErrorMessage name='password' className='text-red-500' component={'p'}/>
+                
+              </div>
+
+              <AuthButton text={"Registrarse"}></AuthButton>
+              <p className="text-xs text-gray-500 mt-3">Será un momento, no te preocupes.</p>
+
+              <div className='mt-3'>
+                
+                
+                <div className='mb-3 flex justify-center items-center gap-x-6'>
+                  <div className='w-full h-[0.1000px] bg-gray-400'></div>
+                  <div className='font-Bitcount'>OR</div>
+                  <div className='w-full h-[0.1000px] bg-gray-400'></div>
+                </div>
+                
+                
+                <div className='mb-3 text-center'>
+                  <p>
+                    <span className='font-bold'>¿Tienes ya una cuenta?</span>  <Link to={'/login'} className='font-Bitcount text-indigo-600 hover:text-indigo-700'>Inicia Sesión Aquí</Link>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </Form>
+      </Formik>
+      
     </>
   )
 }

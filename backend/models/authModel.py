@@ -4,8 +4,8 @@ from typing import Optional
 from enum import Enum
 
 class RolesEnum(str,Enum):
-    user="user"
-    admin="admin"
+    user="USER"
+    admin="ADMIN"
 
 
 class User(BaseModel):

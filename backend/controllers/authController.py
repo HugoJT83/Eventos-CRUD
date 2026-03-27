@@ -1,3 +1,6 @@
+from fastapi import HTTPException
+
+from services import authService
 from services.authService import registerService
 
 def registerController(data):

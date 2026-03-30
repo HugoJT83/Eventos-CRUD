@@ -1,0 +1,66 @@
+import bson
+
+from config import db
+from config.db import user_collection
+from models.authModel import RegisterUser, LoginUser
+from fastapi.exceptions import HTTPException
+import bcrypt
+import jwt
+from datetime import datetime, timedelta
+from config.env import ENVConfig
+
+async def registerService(data:RegisterUser):
+    check_exist = await user_collection.find_one({"email":data.email.lower()})
+    
+    if check_exist:
+        raise HTTPException(status_code=400,detail="User already exists")
+    
+    salt = bcrypt.gensalt()
+    # print(salt)
+    hash_string = bcrypt.hashpw(data.password.encode(),salt).decode()
+    user_data = data.dict()
+    user_data['password']=hash_string
+    user_data['email'] = data.email.lower()
+    doc = await user_collection.insert_one(user_data)
+    
+    token = jwt.encode({
+        "user_id":str(doc.inserted_id),
+        "exp": datetime.utcnow()+timedelta(days=10),
+        'iat':datetime.utcnow()
+    }, ENVConfig.JWT_AUTH_SCREATE,algorithm="HS256")
+    
+    return {
+        "msg":"Register Success",
+        "token":token
+    }
+    
+async def loginService(data: LoginUser):
+    check_exist = await user_collection.find_one({"email":data.email.lower()})
+    
+    if not check_exist:
+        raise HTTPException(status_code=400,detail="User doesn't exist")
+    
+    is_match = bcrypt.checkpw(data.password.encode(), check_exist['password'].encode())
+    if not is_match:
+        raise Exception(status_code=400, detail="Invalid Credentials")
+     
+     
+    token = jwt.encode({
+        "user_id":str(check_exist['_id']),
+        "exp": datetime.utcnow()+timedelta(days=10),
+        'iat':datetime.utcnow()
+    }, ENVConfig.JWT_AUTH_SCREATE,algorithm="HS256")
+    return {
+        "msg":"Successful login",
+        "token": token
+    }
+
+async def profileService(userId: str):
+    check_exist = await user_collection.find_one({"_id":bson.ObjectId(userId)})
+    if not check_exist:
+        raise HTTPException(status_code=404,detail="User Details not Found")
+    
+    del check_exist['password']
+    check_exist['_id'] = str(check_exist['_id'])
+    
+    return check_exist

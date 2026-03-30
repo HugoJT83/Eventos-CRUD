@@ -5,6 +5,9 @@ import Footer from "./components/Footer";
 import LoginUser from "./pages/auth/LoginUser";
 import RegisterUser from "./pages/auth/RegisterUser";
 import MainLayout from "./Layouts/MainLayout";
+import AuthLayout from "./Layouts/AuthLayout";
+import { Dashboard } from "./pages/Dashboard";
+import ProtectedLayout from "./Layouts/ProtectedLayout";
 
 const App = () => {
   return (
@@ -12,9 +15,22 @@ const App = () => {
       <Routes>
         <Route path="/" Component={MainLayout}> 
           <Route index Component={Home}/>
+
+          <Route Component={ProtectedLayout}>
+          <Route path='/dashboard' Component={Dashboard}/>
+          </Route>
+          
         </Route>
-        <Route path="/login" Component={LoginUser}></Route>
-        <Route path="/register" Component={RegisterUser}></Route>
+
+        
+
+        <Route Component={AuthLayout}>
+          <Route path="/login" Component={LoginUser}/>
+          <Route path="/register" Component={RegisterUser}/>
+        </Route>
+
+        
+
       </Routes>
     <Footer/>
     </>

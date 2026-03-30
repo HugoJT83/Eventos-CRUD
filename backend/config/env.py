@@ -6,3 +6,5 @@ class ENVConfig:
     
     MONGO_CONNECTION = os.getenv("MONGO_CONNECTION","")
     MONGO_DB = os.getenv("MONGO_DB","")
+    JWT_AUTH_SCREATE = os.getenv("JTW_AUTH_SCREATE","!)($!)($&)/·$&")
+    ALGORITHMS = "HS256"

@@ -1,20 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthButton from '../../../components/ui/AuthButton'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 import { ROLE_TYPE } from '../../../constant/auth.constant'
 import { axiosClient } from '../../../utils/axiosClient'
+import { toast } from 'react-toastify'
+import { useAuthContext } from '../../../context/AuthContext'
 
 library.add(fas,far)
 
 
 const RegisterUser = () => {
+
+  const [isLoading,setIsLoading] = useState(false)
+  const [isHide, setIsHide] = useState(true)
+  const navigate = useNavigate()
+  const {fetchUserProfile} = useAuthContext()
 
   const ValidationSchema = yup.object({
       name: yup.string().required("El nombre y los apellidos son obligatorios"),
@@ -24,12 +31,24 @@ const RegisterUser = () => {
     })
   
     const onSubmitHandler = async(values,helpers)=>{
-      console.log(values)
-      const response = await axiosClient.post("/auth/register",values)
-      const data = response.data
-  
-      console.log(data)
-      helpers.resetForm()
+
+      try{
+        const response = await axiosClient.post("/auth/register",values)
+        const data = response.data
+    
+        console.log(data)
+        toast.success(data.msg)
+        localStorage.setItem("token",data.token)
+
+        await fetchUserProfile()
+        
+        helpers.resetForm()
+        navigate("/dashboard")
+      }
+      catch(e){
+        toast.error(e.response.data.detail || e.message)
+      }
+      
     }
   
     const initialValues = {
@@ -99,7 +118,9 @@ const RegisterUser = () => {
                 
                 <div className='mb-3 flex justify-center items-center gap-x-6'>
                   <div className='w-full h-[0.1000px] bg-gray-400'></div>
-                  <div className='font-Bitcount'>OR</div>
+                  <div>
+                    <FontAwesomeIcon icon="fa-solid fa-hand-peace"></FontAwesomeIcon>
+                  </div>
                   <div className='w-full h-[0.1000px] bg-gray-400'></div>
                 </div>
                 

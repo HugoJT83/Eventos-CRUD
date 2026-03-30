@@ -1,0 +1,20 @@
+from fastapi import HTTPException, Request
+import jwt
+from config.env import ENVConfig 
+
+def verifyToken(req:Request):
+    authorization = req.headers.get("Authorization","")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(401,detail="Please login first")
+    
+    
+    token = authorization.split(" ")[1]
+    if not token:
+        raise HTTPException(401,detail="Please provide a valid Token")
+    
+    try:
+        payload = jwt.decode(token,ENVConfig.JWT_AUTH_SCREATE,algorithms=[ENVConfig.ALGORITHMS])
+        return payload['user_id']
+    except Exception as e:
+        raise HTTPException(401,f"{e}")
+    

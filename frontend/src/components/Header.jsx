@@ -39,14 +39,14 @@ const Header = () => {
                     {user ?
                     <>
                         <Link to={'/dashboard'}>
-                            <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">
-                                Mis Eventos
+                            <button className="bg-indigo-500 rounded-lg p-2 flex align-middle items-center text-white transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                                Dashboard
                                 <FontAwesomeIcon icon="fa-regular fa-rectangle-list" className='p-1'></FontAwesomeIcon>
                             </button>
                         </Link>
                     </>:
                         <Link to={'/register'}>
-                            <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-gray-200 rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                                 Registrarse
                                 <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
                             </button>
@@ -55,12 +55,12 @@ const Header = () => {
                     {/* Boton login/logout */}
                     {user ? 
                     <>
-                        <button onClick={logoutUser} className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">Cerrar sesión
+                        <button onClick={logoutUser} className="bg-gray-200 rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">Cerrar sesión
                             <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
                         </button>
                     </>:
                         <Link to={'/login'}>
-                            <button className="bg-gray-200 rounded-lg p-2 flex items-center hover:bg-gray-300 m-2 hover:cursor-pointer">Iniciar Sesión
+                            <button className="bg-gray-200 rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">Iniciar Sesión
                                 <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
                             </button>
                         </Link>}

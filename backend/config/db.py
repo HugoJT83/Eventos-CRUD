@@ -9,3 +9,4 @@ db = client[ENVConfig.MONGO_DB]
 #User Collection
 
 user_collection = db['users']
+profile_collection = db['profiles']

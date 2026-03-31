@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from '../assets/app_logo.svg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 /* FontAwesome */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,10 +21,14 @@ const Header = () => {
     const user = useSelector(UserSlicePath)
     const {logoutUser} = useAuthContext()
 
+    const {pathname} = useLocation()
+    const protectedRoute = ['/dashboard','/profile']
+
   return (
     <>
         <header className="text-gray-600 body-font">
             <div className="flex min-w-full justify-between p-5">
+                
                 
                 {/* Logo */}
                 <Link to={'/'} className="flex items-center max-w-15">

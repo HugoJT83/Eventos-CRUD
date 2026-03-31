@@ -8,6 +8,7 @@ import MainLayout from "./Layouts/MainLayout";
 import AuthLayout from "./Layouts/AuthLayout";
 import { Dashboard } from "./pages/Dashboard";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
+import ProfileUser from "./pages/auth/ProfileUser";
 
 const App = () => {
   return (
@@ -17,7 +18,10 @@ const App = () => {
           <Route index Component={Home}/>
 
           <Route Component={ProtectedLayout}>
+
           <Route path='/dashboard' Component={Dashboard}/>
+
+          <Route path='/profile' Component={ProfileUser}/>
           </Route>
           
         </Route>

@@ -1,4 +1,10 @@
+from typing import Annotated
+
 import bson
+import cloudinary
+import cloudinary.uploader
+import config.CloudinaryConfig
+from fastapi import File, UploadFile
 
 from config import db
 from config.db import user_collection
@@ -42,7 +48,7 @@ async def loginService(data: LoginUser):
     
     is_match = bcrypt.checkpw(data.password.encode(), check_exist['password'].encode())
     if not is_match:
-        raise Exception(status_code=400, detail="Invalid Credentials")
+        raise HTTPException(status_code=400, detail="Invalid Credentials")
      
      
     token = jwt.encode({
@@ -64,3 +70,25 @@ async def profileService(userId: str):
     check_exist['_id'] = str(check_exist['_id'])
     
     return check_exist
+
+async def updateAvatarService(avatar: Annotated[UploadFile,File()], userId: str):
+    exist = await user_collection.find_one({"_id":bson.ObjectId(userId)})
+    if exist['avatar'] and exist['avatar']['image_uri']:
+        cloudinary.uploader.destroy(exist['avatar']['public_id'])
+    
+    
+    contents = await avatar.read()
+    print("contents",contents)
+    upload_result = cloudinary.uploader.upload(contents, folder="events_user_profile")
+    
+    await user_collection.find_one_and_update({"_id":bson.ObjectId(userId)},{
+            "$set":{
+                "avatar":{
+                    "image_uri":upload_result['secure_url'],
+                    "public_id":upload_result['public_id']
+                }
+            }
+    })
+    return {
+        "msg":"Profile Updated Success"
+    }

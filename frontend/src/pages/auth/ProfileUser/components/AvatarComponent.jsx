@@ -55,7 +55,7 @@ const AvatarComponent = () => {
 
 
   return (
-    <div {...getRootProps()} className='relative w-[150px] h-[150px] text-center rounded-full'>
+    <div {...getRootProps()} className='relative w-[220px] h-[220px] text-center rounded-full m-10'>
       <input {...getInputProps()} />
       {
         isDragActive ?

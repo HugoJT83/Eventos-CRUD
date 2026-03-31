@@ -1,12 +1,15 @@
 from pydantic import BaseModel,Field, EmailStr,field_validator
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, Union
 from enum import Enum
 
 class RolesEnum(str,Enum):
     user="USER"
     admin="ADMIN"
 
+class ProfileImage(BaseModel):
+    image_uri:str
+    public_id:str
 
 class User(BaseModel):
     
@@ -15,6 +18,8 @@ class User(BaseModel):
     email: EmailStr = Field(...)
     
     password: str = Field(...,min_length=6)
+    
+    avatar: Optional[ProfileImage] = None
     
     """  Opcional   
         created_at: datetime = Field(

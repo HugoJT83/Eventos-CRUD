@@ -10,6 +10,8 @@ import { useAuthContext } from '../../../../context/AuthContext'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { toast } from 'react-toastify'
 import { axiosClient } from '../../../../utils/axiosClient'
+import Interest from './Interest'
+import { INTERESTS_CONFIG } from '../../../../constant/interestsConfig'
 
 const Details = () => {
 
@@ -47,7 +49,8 @@ const Details = () => {
             country: yup.string().max(20, "La ciudad no puede tener más de 20 caracteres"),
             state: yup.string().max(20, "La provincia no puede tener más de 20 caracteres")
         }),
-        description: yup.string().max(500, "La descripción no puede tener más de 500 caracteres")
+        description: yup.string().max(500, "La descripción no puede tener más de 500 caracteres"),
+        interests:yup.array().of(yup.string()).max(4,"Solo puedes elegir hasta 4 intereses")
     })
 
     const onSubmitHandler =async(values,helpers)=>{
@@ -83,6 +86,7 @@ const Details = () => {
         setInitialValues({
             name:user.name,
             email:user.email,
+            interests:user.interests,
             description:user.description,
             address:user.address
         })
@@ -91,12 +95,15 @@ const Details = () => {
   return (
     <>
         <div className='lg:w-1/2 sm:w-1/3 m-5'>
-
+            
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmitHandler}
             >
+            {({values,setFieldValue}) =>(
+                
+            
                 <Form>
                     {/* Detalles */}
                     <div 
@@ -229,7 +236,7 @@ const Details = () => {
                                     as="textarea"
                                     rows="4"
                                     className="text-lg min-w-full bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700" 
-                                    placeholder="Cuenta Lo que haces"
+                                    placeholder="¡Adelante, no te cortes!"
                                     name="description"
                                     maxLength={500}
                                 />
@@ -243,7 +250,7 @@ const Details = () => {
                                         </p>
                                     </>:
                                     <>
-                                        <p className='text-lg text-gray-300'>
+                                        <p className='text-lg text-gray-400'>
                                             ¿Qué puedes contar sobre tí?
                                         </p>
                                     </>
@@ -262,21 +269,81 @@ const Details = () => {
                             <p className='font-Bitcount text-indigo-500 text-xl mr-1'>Intereses:</p>
                             {hoveredId === 3 ?  
                                 <>
-                                    <button className='animate-bounce'>
-                                        <FontAwesomeIcon id='edit' icon="fa-solid fa-pencil" className='text-indigo-400 hover:text-indigo-700 transition ease-in-out duration-200 hover:cursor-pointer'/>
-                                    </button>
+                                    <button
+                                        type={editingId === 4 ? "button" :  "submit"} 
+                                        onClick={()=>toggleEdit(4)}
+                                         className='animate-bounce'>
+                                            <FontAwesomeIcon
+                                                icon={editingId === 4 ? "fa-solid fa-check" :  "fa-solid fa-pencil" }
+                                                className='text-indigo-400 hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
+                                        </button>
                                 </> :
                                 <> </>
                             }
                         </div>
-                        <div className='flex justify-around p-2'>
-                            <p>Interes 1</p>
-                            <p>Interes 2</p>
-                            <p>Interes 3</p>
-                            <p>Interes 4</p>
-                        </div>
+                        {editingId === 4 ?
+                            <>
+                                {/* Se muestra una lista con todos los intereses; seleccionados los que tenga el usuario */}
+                                <div className='grid grid-cols-4 gap-3 p-4 sm:grid-cols-3'>
+                                {Object.entries(INTERESTS_CONFIG).map(([key,config]) =>{
+                                    const isSelected = values.interests.includes(key);
+
+                                    return(
+                                    
+                                        <Interest
+                                            key={key}
+                                            icon={config.icon}
+                                            label={config.label}
+                                            selectable={true}
+                                            isSelected={isSelected}
+                                            onClick={ ()=>{
+                                                if(isSelected){
+                                                const next = values.interests.filter(i=> i !== key);
+                                                setFieldValue('interests',next);
+                                                } else if (values.interests.length < 4){
+                                                    setFieldValue('interests',[...values.interests, key]);
+                                                }
+                                            }}
+                                        ></Interest>
+                                    
+                                    )
+                                })}
+                                </div>
+                            </>:
+                            <>
+                                {/* Se muestran los 4 intereses marcados por el usuario */}
+                                {user.interests && user.interests.length > 0 ?
+                                    <>
+                                        <div className='grid grid-cols-4 gap-3 p-4'>
+                                            {user.interests?.map((key)=>{
+                                                const config = INTERESTS_CONFIG[key];
+
+                                                return config ? 
+                                                
+                                                    <Interest
+                                                        key={key}
+                                                        icon={config.icon}
+                                                        label={config.label}
+                                                        selectable={false}
+                                                    />
+                                                :null;
+                                            })}
+                                        </div> 
+                                        
+                                    </>:
+                                    <>
+                                            {/* Si no se han seleccionado intereses */}
+                                            <p className='text-lg text-gray-400'>Elige qué llama tu atención.</p>
+                                               
+                                    </>    
+                                }
+                            </>
+                        }
+
+                        
                     </div>
                 </Form>
+            )}
             </Formik>
         </div>
 

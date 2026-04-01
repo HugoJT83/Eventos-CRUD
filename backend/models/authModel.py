@@ -8,13 +8,23 @@ class RolesEnum(str,Enum):
     user="USER"
     admin="ADMIN"
     
-class InterestsEnum(str,Enum):
-    deportes="DEPORTES"
-    artesania="ARTESANIA"
-    juegos="JUEGOS"
-    espectaculos="ESPECTACULOS"
-    moda="MODA"
-
+   
+class InterestsEnum(str, Enum):
+    jardineria = "JARDINERIA"
+    juegos = "JUEGOS"
+    musica = "MUSICA"
+    deporte = "DEPORTE"
+    artesania = "ARTESANIA"
+    cocina = "COCINA"
+    arte = "ARTE"
+    teatro = "TEATRO"
+    infantil = "INFANTIL"
+    ciencias = "CIENCIAS"
+    tecnologia = "TECNOLOGIA"
+    fiesta = "FIESTA"
+    otros = "OTROS"
+  
+    
 class ProfileImage(BaseModel):
     image_uri:str
     public_id:str
@@ -47,6 +57,7 @@ class User(BaseModel):
 class Address(BaseModel):
     country:str
     state:str
+   
 
 class UserProfile(BaseModel):
     
@@ -54,7 +65,7 @@ class UserProfile(BaseModel):
     name: str = Field(...)
     avatar: Optional[ProfileImage] = None
     description:Optional[str] = ""
-    interests: Optional[InterestsEnum]  = None
+    interests: List[InterestsEnum] = Field(default=[], max_items=4)
     address: Optional[Address] = None
     
     created_at:datetime = Field(default_factory=datetime.now)
@@ -65,6 +76,13 @@ class UserProfile(BaseModel):
         if len(value)<3:
             raise ValueError("El nombre debe ser mayor de 3 caracteres")
         return value
+    
+    @field_validator('interests')
+    @classmethod
+    def check_max_interests(cls, value):
+        if len(value)>4:
+            raise ValueError("No puedes seleccionar más de 4 intereses")
+        return value
 
 
 class RegisterUser(User):
@@ -73,7 +91,15 @@ class RegisterUser(User):
 class UpdateDetails(BaseModel):
     name:str = Field(...)
     description: Optional[str] = ""
+    interests: List[InterestsEnum] = Field(default=[], max_items=4)
     address: Optional[Address] = None
+    
+    @field_validator('interests')
+    @classmethod
+    def check_max_interests(cls, value):
+        if len(value)>4:
+            raise ValueError("No puedes seleccionar más de 4 intereses")
+        return value
 
 class LoginUser(BaseModel):
     email: EmailStr = Field(...)

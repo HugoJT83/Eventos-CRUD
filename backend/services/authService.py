@@ -124,6 +124,7 @@ async def UpdateDetailsService(data: UpdateDetails, userId:str):
         "$set":{
             "name":data.name,
             "description":data.description,
+            "interests": data.interests,
             "address":data.address.dict(),
             "update_at":datetime.now()
         }

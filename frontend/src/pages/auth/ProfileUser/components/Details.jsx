@@ -33,7 +33,7 @@ const Details = () => {
     const {user,fetchUserProfile} = useAuthContext()
     const [initialValues,setInitialValues] = useState({
         name:user.name,
-        description:user.descritpion,
+        description:user.description,
         interests:user.interests,
         address:{
             country: user.address?.country || "",
@@ -42,14 +42,29 @@ const Details = () => {
     })
 
     const validationSchema = yup.object({
-        name: yup.string().required("El nombre es obligatorio"),
+        name: yup.string().required("El nombre es obligatorio").max(30, "el nombre no puede tener más de 30 caracteres"),
+        address:yup.object({
+            country: yup.string().max(20, "La ciudad no puede tener más de 20 caracteres"),
+            state: yup.string().max(20, "La provincia no puede tener más de 20 caracteres")
+        }),
+        description: yup.string().max(500, "La descripción no puede tener más de 500 caracteres")
     })
 
     const onSubmitHandler =async(values,helpers)=>{
-        try {
-            console.log
 
-            const response = await axiosClient.put("/auth/update-details",values,{
+        const cleanValues = {
+            ...values,
+            name: values.name.trim(),
+            address:{
+                country: values.address.country.trim(),
+                state: values.address.state.trim()
+            },
+            description: values.description.trim(),
+        }
+
+        try {
+
+            const response = await axiosClient.put("/auth/update-details",cleanValues,{
                 headers:{
                     'Authorization':'Bearer '+localStorage.getItem("token")
                 }
@@ -68,6 +83,7 @@ const Details = () => {
         setInitialValues({
             name:user.name,
             email:user.email,
+            description:user.description,
             address:user.address
         })
     },[user])
@@ -95,11 +111,15 @@ const Details = () => {
                             <div className='flex justify-between'>
                                 {editingId === 1 ? 
                                     <>
-                                        <Field className="text-2xl bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700 " type="text" name="name" id="name"/>
+                                        <Field 
+                                        className="text-2xl bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700 " type="text" name="name" id="name"
+                                        maxLength={30}
+                                        />
+                                        <ErrorMessage component={'p'} name='name' className='text-red-500'></ErrorMessage>
                                     </>:
                                         <p className='text-2xl'>{user.name}</p>
                                 }
-                                <ErrorMessage component={'p'} name='name' className='text-red-500'></ErrorMessage>
+                                
                                 {hoveredId === 1 ?  
                                     <>
                                         <button 
@@ -128,14 +148,18 @@ const Details = () => {
                                             type="text"
                                             placeholder="Ciudad"
                                             name="address.country"
+                                            maxLength={20}
                                             />
+                                            <ErrorMessage name="address.country" component={'p'} className='text-red-500'></ErrorMessage>
                                             <span className='text-xl text-indigo-400'> , </span>
                                             <Field
                                             className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700"
                                             type="text"
                                             placeholder="Provincia"
                                             name="address.state"
+                                            maxLength={20}
                                             />
+                                            <ErrorMessage name="address.star" component={'p'} className='text-red-500'></ErrorMessage>
                                             <br />
                                             <span className='text-gray-400'>Puedes indicar ambas o solo una, como tu prefieras.</span>
                                         </div> 
@@ -187,14 +211,45 @@ const Details = () => {
                             <p className='font-Bitcount text-indigo-500 text-xl mr-1'>Sobre mí:</p>
                             {hoveredId === 2 ?  
                                 <>
-                                    <button className='animate-bounce'>
-                                        <FontAwesomeIcon id='edit' icon="fa-solid fa-pencil" className='text-indigo-400 hover:text-indigo-700 transition ease-in-out duration-200 hover:cursor-pointer'/>
-                                    </button>
+                                    <button
+                                        type={editingId === 3 ? "button" :  "submit"} 
+                                        onClick={()=>toggleEdit(3)}
+                                         className='animate-bounce'>
+                                            <FontAwesomeIcon
+                                                icon={editingId === 3 ? "fa-solid fa-check" :  "fa-solid fa-pencil" }
+                                                className='text-indigo-400 hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
+                                        </button>
                                 </> :
                                 <> </>
                             }
                         </div>
-                        <p className='text-lg'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+                        {editingId === 3 ?
+                            <>
+                                <Field 
+                                    as="textarea"
+                                    rows="4"
+                                    className="text-lg min-w-full bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700" 
+                                    placeholder="Cuenta Lo que haces"
+                                    name="description"
+                                    maxLength={500}
+                                />
+                                <ErrorMessage name="description" component={'p'} className='text-red-500'></ErrorMessage>
+                            </>:
+                            <>
+                                {user.description ?
+                                    <>
+                                        <p className='text-lg'>
+                                            {user.description}
+                                        </p>
+                                    </>:
+                                    <>
+                                        <p className='text-lg text-gray-300'>
+                                            ¿Qué puedes contar sobre tí?
+                                        </p>
+                                    </>
+                                }
+                            </>
+                        }
                     </div>
 
                     {/* Intereses */}

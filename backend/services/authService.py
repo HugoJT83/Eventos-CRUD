@@ -9,7 +9,7 @@ from fastapi import File, UploadFile
 from config import db
 from config.db import user_collection, profile_collection
 from models import authModel
-from models.authModel import RegisterUser, LoginUser
+from models.authModel import RegisterUser, LoginUser, UpdateDetails
 from fastapi.exceptions import HTTPException
 import bcrypt
 import jwt
@@ -81,14 +81,24 @@ async def profileService(userId: str):
     
     check_exist['_id'] = str(check_exist['_id'])
     profile = await profile_collection.find_one({"user_id":check_exist['_id']})
+    
+    if not profile:
+        raise HTTPException(status_code=404,detail="Profile not found")
+    
     del profile['_id']
     del profile['user_id']
-    profile['avatar'] = profile['avatar']['image_uri']    
+    
+    if profile.get('avatar') and 'image_uri' in profile['avatar']:
+        profile['avatar'] = profile['avatar']['image_uri']
+    else:
+        profile['avatar'] = None
+        
     return check_exist | profile
 
 async def updateAvatarService(avatar: Annotated[UploadFile,File()], userId: str):
     exist = await profile_collection.find_one({"user_id":userId})
-    if exist['avatar'] and exist['avatar']['image_uri']:
+    
+    if exist.get('avatar') and exist['avatar'].get('public_id'):
         cloudinary.uploader.destroy(exist['avatar']['public_id'])
     
     
@@ -106,4 +116,22 @@ async def updateAvatarService(avatar: Annotated[UploadFile,File()], userId: str)
     })
     return {
         "msg":"Profile Updated Success"
+    }
+    
+async def UpdateDetailsService(data: UpdateDetails, userId:str):
+    
+    check_exist = await profile_collection.find_one_and_update({"user_id":userId},{
+        "$set":{
+            "name":data.name,
+            "description":data.description,
+            "address":data.address.dict(),
+            "update_at":datetime.now()
+        }
+    })
+    if not check_exist:
+        raise HTTPException(status_code=404,detail="User Details not Found")
+    
+    return{
+        "msg":"Details Update Success"
+
     }

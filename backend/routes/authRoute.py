@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, File, Request, UploadFile
 from controllers import authController
-from controllers.authController import loginController, registerController
+from controllers.authController import loginController, registerController, updateDetailsController
 from typing import Annotated, Any 
-from models.authModel import LoginUser, RegisterUser
+from models.authModel import LoginUser, RegisterUser, UpdateDetails
 from config.db import user_collection
 from middleware.VerifyToken import verifyToken
 
@@ -26,3 +26,7 @@ async def profileView(userId = Depends(verifyToken)):
 @router.put("/update-avatar")
 async def updateAvatar(avatar: Annotated[UploadFile,File()], userId = Depends(verifyToken)):
     return await authController.updateAvatarController(avatar, userId)
+
+@router.put("/update-details")
+async def updateDetails(data:UpdateDetails, userId = Depends(verifyToken)):
+    return await authController.updateDetailsController(data,userId)

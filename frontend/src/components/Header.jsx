@@ -16,6 +16,8 @@ Para añadir un fontawesome:
 <FontAwesomeIcon icon="fa-solid fa-house"></FontAwesomeIcon>
 */
 
+import samplePhoto from "../assets/profile_photo.png"
+
 const Header = () => {
 
     const user = useSelector(UserSlicePath)
@@ -32,8 +34,8 @@ const Header = () => {
                 
                 {/* Logo */}
                 <Link to={'/'} className="flex items-center max-w-15">
-                <img src={logo} className='' alt="" />
-                <span className="text-3xl font-Bitcount mt-2 ml-2">Eventos</span>
+                    <img src={logo} className='' alt="" />
+                    <span className="text-3xl font-Bitcount mt-2 ml-2 transition-[text-shadow] duration-300 hover:text-shadow-[6px_4px_0px]  hover:text-shadow-indigo-400">Eventos</span>
                 </Link>
                 
                 {/* Botones */}
@@ -69,7 +71,18 @@ const Header = () => {
                             </button>
                         </Link>}
                 
-
+                    {user ?
+                    <>
+                    <Link to={'/profile'}>
+                        <div className=' w-[60px] h-[60px] rounded-full ml-5 mr-5 hover:border-3 border-indigo-400'>
+                            <img src={user?.avatar ?? samplePhoto} alt="" className='w-full h-full object-cover rounded-full' />
+                        </div>
+                    </Link>
+                    </>:
+                    <>
+                    
+                    </>
+                    }
                 </div>
                 
             </div>

@@ -25,8 +25,8 @@ class User(BaseModel):
     email: EmailStr = Field(...)
     password: str = Field(...,min_length=6)
     role: Optional[RolesEnum]  = Field(default = RolesEnum.user)
-    created_at:datetime = Field(default_factory=datetime.now())
-    update_at:datetime = Field(default_factory=datetime.now())
+    created_at:datetime = Field(default_factory=datetime.now)
+    update_at:datetime = Field(default_factory=datetime.now)
     
     """  Opcional   
         created_at: datetime = Field(
@@ -44,7 +44,7 @@ class User(BaseModel):
         return value
     
 
-class AddressModel(BaseModel):
+class Address(BaseModel):
     country:str
     state:str
 
@@ -55,10 +55,10 @@ class UserProfile(BaseModel):
     avatar: Optional[ProfileImage] = None
     description:Optional[str] = ""
     interests: Optional[InterestsEnum]  = None
-    address: List[AddressModel] = []
+    address: Optional[Address] = None
     
-    created_at:datetime = Field(default_factory=datetime.now())
-    update_at:datetime = Field(default_factory=datetime.now())
+    created_at:datetime = Field(default_factory=datetime.now)
+    update_at:datetime = Field(default_factory=datetime.now)
     
     @field_validator('name')
     def validate_name(cls,value):
@@ -69,6 +69,11 @@ class UserProfile(BaseModel):
 
 class RegisterUser(User):
     pass
+
+class UpdateDetails(BaseModel):
+    name:str = Field(...)
+    description: Optional[str] = ""
+    address: Optional[Address] = None
 
 class LoginUser(BaseModel):
     email: EmailStr = Field(...)

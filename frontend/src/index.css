@@ -5,11 +5,12 @@
 
     --font-Bitcount: 'Bitcount Prop Double';
 
-    --color-accent: #818cf8; /* Indigo 400 por defecto */
-    --color-primary: #ffffff; /* Blanco por defecto */
-    --color-secondary: #e5e7eb; /* Gray 200 por defecto */
-    --color-terciary: #000000; /* Negro por defecto */
-
+    --color-indigo-to-yellow: #818cf8; /* Indigo 400 por defecto */
+    --color-white-to-black: #ffffff; /* Blanco por defecto */
+    --color-gray-to-yellow: #e5e7eb; /* Gray 200 por defecto */
+    --color-black-to-white: #000000; /* Negro por defecto */
+    --color-indigo-to-black: #818cf8; /* Indigo 400 por defecto */
+    --color-gray-to-black: #9ca3af; /* Gray 400 por defecto */
     --font-main: 'Poppins', ui-sans-serif, system-ui;
     --font-Dyslexic: 'OpenDyslexic',sans-serif;    
 
@@ -26,11 +27,12 @@
 }
 
 .high-contrast {
-    
-    --color-primary: #000000;
-    --color-secondary: #ffff00;
-    --color-terciary: #ffffff;
-    --color-accent: #ffff00;
+    --color-indigo-to-yellow: #ffff00;
+    --color-white-to-black: #000000;
+    --color-gray-to-yellow: #ffff00;
+    --color-black-to-white: #ffffff;
+    --color-indigo-to-black: #000000; 
+    --color-gray-to-black: #000000;
     background-color: #000000 !important;
     color: #ffffff !important;
 }

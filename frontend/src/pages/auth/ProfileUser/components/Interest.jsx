@@ -14,7 +14,7 @@ const Interest = ({icon, label, isSelected, onClick, selectable = false}) => {
       {/* Fondo + funcionalidad */}
       <div 
       onClick={selectable ? onClick : null}
-      className={`bg-indigo-400 text-white p-3 relative rounded-full content items-center transition-all duration-200
+      className={`bg-indigo-to-yellow text-white-to-black p-3 relative rounded-full content items-center transition-all duration-200
         ${selectable ? 'cursor-pointer':''}`}
       >
         {/* Si está seleccionado */}
@@ -31,7 +31,7 @@ const Interest = ({icon, label, isSelected, onClick, selectable = false}) => {
       </div>
 
       {/* texto */}
-      <p className='text-center font-Bitcount text-indigo-500'>{label}</p>
+      <p className='text-center font-Bitcount text-indigo-to-black'>{label}</p>
     </div>
     </>
   )

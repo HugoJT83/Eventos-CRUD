@@ -20,11 +20,11 @@ const FloatingMenu = () => {
         {/* Cuadro de ajustes de accesibilidad */}
         {isOpen && (
 
-                <div className='absolute bottom-16 right-0 w-64 bg-primary border-2 border-accent rounded-2xl'>
-                    <h3 className='text-accent p-2 text-center'>Accesibilidad</h3>
+                <div className='absolute bottom-16 right-0 w-64 bg-white-to-black border-2 border-indigo-to-yellow rounded-2xl'>
+                    <h3 className='text-indigo-to-yellow p-2 text-center'>Accesibilidad</h3>
 
                     <div className='mb-3 flex justify-center items-center gap-x-6'>
-                        <div className='w-20 h-0.5 bg-accent'></div>
+                        <div className='w-20 h-0.5 bg-indigo-to-yellow'></div>
                     </div>
 
                     {/* Tamaño de la fuente */}
@@ -35,7 +35,8 @@ const FloatingMenu = () => {
                                 <button
                                     key={s}
                                     onClick={()=> setConfig({...config, fontSize: s})}
-                                    className={`border-accent border-2 hover:cursor-pointer flex-1 text-xs py-1 rounded-2xl ${config.fontSize === s ? 'bg-accent text-primary' : 'bg-primary'}`}
+                                    className={`border-indigo-to-yellow border-2 hover:cursor-pointer flex-1 text-xs py-1 rounded-2xl
+                                         ${config.fontSize === s ? 'bg-indigo-to-yellow text-white-to-black' : 'bg-white-to-black'}`}
                                 >
                                     {s[0].toUpperCase()}
                                 </button>
@@ -48,9 +49,9 @@ const FloatingMenu = () => {
                         <div className='flex gap-2 p-2'>
                             <button 
                                 onClick={() => setConfig({...config, highContrast: !config.highContrast})}
-                                className="w-full text-left text-sm py-2 hover:cursor-pointer border-2 border-accent rounded-2xl p-2 flex justify-between items-center"
+                                className="w-full text-left text-sm py-2 hover:cursor-pointer border-2 border-indigo-to-yellow rounded-2xl p-2 flex justify-between items-center"
                             >
-                                <p className='text-terciary'>{config.highContrast ? 'Activado' : 'Activar'}</p>
+                                <p className='text-black-to-white'>{config.highContrast ? 'Activado' : 'Activar'}</p>
                                 {config.highContrast ? <FontAwesomeIcon icon="fa-solid fa-check" className="text-green-500" /> : null}
                             </button>
                         </div>
@@ -61,9 +62,9 @@ const FloatingMenu = () => {
                         <div className='flex gap-2 p-2'>
                             <button 
                                 onClick={() => setConfig({...config, dyslexicFont: !config.dyslexicFont})}
-                                className="w-full text-left text-sm py-2 hover:cursor-pointer border-2 border-accent rounded-2xl p-2 flex justify-between items-center"
+                                className="w-full text-left text-sm py-2 hover:cursor-pointer border-2 border-indigo-to-yellow rounded-2xl p-2 flex justify-between items-center"
                             >
-                                <p className='text-terciary'>{config.dyslexicFont ? 'Activado' : 'Activar'}</p>
+                                <p className='text-black-to-white'>{config.dyslexicFont ? 'Activado' : 'Activar'}</p>
                                 {config.dyslexicFont ? <FontAwesomeIcon icon="fa-solid fa-check" className="text-green-500" /> : null}
                             </button>
                         </div>
@@ -74,7 +75,7 @@ const FloatingMenu = () => {
         {/* Boton desplegable de accesibilidad */}
         <button
             onClick={()=>setIsOpen(!isOpen)}
-            className='w-10 h-10 bg-primary border-accent border-2 rounded-full text-accent hover:scale-110 hover:cursor-pointer transition ease-in-out'
+            className='w-10 h-10 items-center justify-center flex bg-white-to-black border-indigo-to-yellow border-2 rounded-full text-indigo-to-yellow hover:scale-120 hover:cursor-pointer transition ease-in-out'
         >
             <FontAwesomeIcon icon={isOpen ? "fa-solid fa-xmark" : "fa-solid fa-universal-access"}></FontAwesomeIcon>
 

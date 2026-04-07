@@ -55,7 +55,7 @@ const AvatarComponent = () => {
 
 
   return (
-    <div {...getRootProps()} className='relative w-[220px] h-[220px] text-center rounded-full m-10'>
+    <div {...getRootProps()} className='relative w-55 h-55 text-center rounded-full m-10'>
       <input {...getInputProps()} />
       {
         isDragActive ?
@@ -67,13 +67,13 @@ const AvatarComponent = () => {
               {
                 loading ? 
                   <>
-                    <FontAwesomeIcon icon="fa-solid fa-compass" className=' m-15 animate-spin text-3xl text-indigo-600'></FontAwesomeIcon>
+                    <FontAwesomeIcon icon="fa-solid fa-compass" className=' m-15 animate-spin text-3xl text-black-to-white'></FontAwesomeIcon>
                   </> :
                     <img src={user?.avatar ?? samplePhoto} alt="profile_photo" className='rounded-full w-full h-full object-cover ' />
               }
             </>
       }
-      <button id='btn-profile' type='button' className='w-10 h-10 absolute -right-2 bottom-3 rounded-full bg-indigo-600 text-white transition ease-in-out hover:bg-indigo-500 hover:cursor-pointer'>
+      <button id='btn-profile' type='button' className='w-10 h-10 absolute -right-2 bottom-3 rounded-full bg-indigo-to-yellow shadow-[2px_3px_2px] shadow-black/30 text-white-to-black transition ease-in-out hover:scale-120 hover:cursor-pointer'>
         <FontAwesomeIcon icon={'fa-solid fa-pencil'}></FontAwesomeIcon>
       </button>
     </div>

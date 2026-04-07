@@ -114,12 +114,12 @@ const Details = () => {
 
                         {/* Nombre */}
                         <div className='mb-5'>
-                            <h1 htmlFor="name" className='font-Bitcount text-indigo-500 text-xl'>Nombre:</h1>
-                            <div className='flex justify-between'>
+                            <h1 htmlFor="name" className='font-Bitcount text-indigo-to-black text-xl'>Nombre:</h1>
+                            <div className='flex justify-between text-black'>
                                 {editingId === 1 ? 
                                     <>
                                         <Field 
-                                        className="text-2xl bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700 " type="text" name="name" id="name"
+                                        className="text-2xl bg-slate-100 border-2 border-indigo-to-black p-1 rounded-xl focus:outline-indigo-700 " type="text" name="name" id="name"
                                         maxLength={30}
                                         />
                                         <ErrorMessage component={'p'} name='name' className='text-red-500'></ErrorMessage>
@@ -135,7 +135,7 @@ const Details = () => {
                                         className='animate-bounce'>
                                             <FontAwesomeIcon
                                                 icon={editingId === 1 ? "fa-solid fa-check" :  "fa-solid fa-pencil" }
-                                                className='text-indigo-400 hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
+                                                className='text-indigo-to-black hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
                                         </button>
                                     </> :
                                     <> </>
@@ -145,13 +145,13 @@ const Details = () => {
 
                         {/* Ubicacion */}
                         <div className=''>
-                            <h1 className='font-Bitcount text-indigo-500 text-xl'>Ubicación:</h1>
-                            <div className='flex justify-between'>
+                            <h1 className='font-Bitcount text-indigo-to-black text-xl'>Ubicación:</h1>
+                            <div className='flex justify-between text-black'>
                                 {editingId === 2 ?
                                     <>
                                         <div className=''>
                                             <Field 
-                                            className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700" 
+                                            className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-to-black p-1 rounded-xl focus:outline-indigo-700" 
                                             type="text"
                                             placeholder="Ciudad"
                                             name="address.country"
@@ -160,7 +160,7 @@ const Details = () => {
                                             <ErrorMessage name="address.country" component={'p'} className='text-red-500'></ErrorMessage>
                                             <span className='text-xl text-indigo-400'> , </span>
                                             <Field
-                                            className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700"
+                                            className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-to-black p-1 rounded-xl focus:outline-indigo-700"
                                             type="text"
                                             placeholder="Provincia"
                                             name="address.state"
@@ -168,14 +168,14 @@ const Details = () => {
                                             />
                                             <ErrorMessage name="address.star" component={'p'} className='text-red-500'></ErrorMessage>
                                             <br />
-                                            <span className='text-gray-400'>Puedes indicar ambas o solo una, como tu prefieras.</span>
+                                            <span className='text-gray-to-black'>Puedes indicar ambas o solo una, como tu prefieras.</span>
                                         </div> 
                                         
                                     </>:
                                     <>
                                         {user.address && (user.address.country || user.address.state) ?
                                             <>
-                                                <p className='text-2xl'>
+                                                <p className='text-2xl text-black'>
                                                     {user.address.country && user.address.state ?
                                                         `${user.address.country}, ${user.address.state}`
                                                         : (user.address.country || user.address.state)
@@ -184,7 +184,7 @@ const Details = () => {
                                                 
                                             </>:
                                             <>
-                                                <p className='text-2xl text-gray-400'>¿Por dónde te das vida?</p>
+                                                <p className='text-2xl text-gray-to-black'>¿Por dónde te das vida?</p>
                                             </>
 
                                         }
@@ -198,7 +198,7 @@ const Details = () => {
                                          className='animate-bounce'>
                                             <FontAwesomeIcon
                                                 icon={editingId === 2 ? "fa-solid fa-check" :  "fa-solid fa-pencil" }
-                                                className='text-indigo-400 hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
+                                                className='text-indigo-to-black hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
                                         </button>
                                     </> :
                                     <> </>
@@ -215,7 +215,7 @@ const Details = () => {
                     className='bg-slate-50 rounded-2xl m-2 p-5 hover:scale-105 ease-in-out duration-150'
                     >
                         <div className='flex'>
-                            <p className='font-Bitcount text-indigo-500 text-xl mr-1'>Sobre mí:</p>
+                            <p className='font-Bitcount text-indigo-to-black text-xl mr-1'>Sobre mí:</p>
                             {hoveredId === 2 ?  
                                 <>
                                     <button
@@ -224,7 +224,7 @@ const Details = () => {
                                          className='animate-bounce'>
                                             <FontAwesomeIcon
                                                 icon={editingId === 3 ? "fa-solid fa-check" :  "fa-solid fa-pencil" }
-                                                className='text-indigo-400 hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
+                                                className='text-indigo-to-black hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
                                         </button>
                                 </> :
                                 <> </>
@@ -235,7 +235,7 @@ const Details = () => {
                                 <Field 
                                     as="textarea"
                                     rows="4"
-                                    className="text-lg min-w-full bg-slate-100 border-2 border-indigo-400 p-1 rounded-xl focus:outline-indigo-700" 
+                                    className="text-lg min-w-full bg-slate-100 border-2 text-black border-indigo-to-black p-1 rounded-xl focus:outline-indigo-700" 
                                     placeholder="¡Adelante, no te cortes!"
                                     name="description"
                                     maxLength={500}
@@ -250,7 +250,7 @@ const Details = () => {
                                         </p>
                                     </>:
                                     <>
-                                        <p className='text-lg text-gray-400'>
+                                        <p className='text-lg text-gray-to-black'>
                                             ¿Qué puedes contar sobre tí?
                                         </p>
                                     </>
@@ -266,7 +266,7 @@ const Details = () => {
                     className='bg-slate-50 rounded-2xl m-2 p-5 hover:scale-105 ease-in-out duration-150'
                     >
                         <div className='flex'>
-                            <p className='font-Bitcount text-indigo-500 text-xl mr-1'>Intereses:</p>
+                            <p className='font-Bitcount text-indigo-to-black text-xl mr-1'>Intereses:</p>
                             {hoveredId === 3 ?  
                                 <>
                                     <button
@@ -275,7 +275,7 @@ const Details = () => {
                                          className='animate-bounce'>
                                             <FontAwesomeIcon
                                                 icon={editingId === 4 ? "fa-solid fa-check" :  "fa-solid fa-pencil" }
-                                                className='text-indigo-400 hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
+                                                className='text-indigo-to-black hover:cursor-pointer hover:text-indigo-700 transition ease-in-out duration-200'/>
                                         </button>
                                 </> :
                                 <> </>
@@ -284,6 +284,7 @@ const Details = () => {
                         {editingId === 4 ?
                             <>
                                 {/* Se muestra una lista con todos los intereses; seleccionados los que tenga el usuario */}
+                                <p className='text-indigo-to-black italic'>Puedes seleccionar hasta 4 intereses.</p>
                                 <div className='grid grid-cols-4 gap-3 p-4 sm:grid-cols-3'>
                                 {Object.entries(INTERESTS_CONFIG).map(([key,config]) =>{
                                     const isSelected = values.interests.includes(key);

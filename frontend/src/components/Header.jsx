@@ -35,7 +35,7 @@ const Header = () => {
                 {/* Logo */}
                 <Link to={'/'} className="flex items-center max-w-15">
                     <img src={logo} className='' alt="" />
-                    <p className="text-3xl text-terciary font-Bitcount mt-2 ml-2 transition-[text-shadow] duration-300 hover:text-shadow-[6px_4px_0px]  hover:text-shadow-accent">Maze</p>
+                    <p className="text-3xl text-black-to-white font-Bitcount mt-2 ml-2 transition-[text-shadow] duration-300 hover:text-shadow-[6px_4px_0px]  hover:text-shadow-indigo-to-yellow">Maze</p>
                 </Link>
                 
                 {/* Botones */}
@@ -45,14 +45,14 @@ const Header = () => {
                     {user ?
                     <>
                         <Link to={'/dashboard'}>
-                            <button className="bg-accent rounded-lg p-2 flex align-middle items-center text-primary transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-indigo-to-yellow rounded-lg p-2 flex align-middle items-center text-white-to-black transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                                 Dashboard
                                 <FontAwesomeIcon icon="fa-regular fa-rectangle-list" className='p-1'></FontAwesomeIcon>
                             </button>
                         </Link>
                     </>:
                         <Link to={'/register'}>
-                            <button className="bg-secondary text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                                 Registrarse
                                 <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
                             </button>
@@ -61,13 +61,13 @@ const Header = () => {
                     {/* Boton login/logout */}
                     {user ? 
                     <>
-                        <button onClick={logoutUser} className="bg-secondary text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                        <button onClick={logoutUser} className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                             Cerrar sesión
                             <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
                         </button>
                     </>:
                         <Link to={'/login'}>
-                            <button className="bg-secondary text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                                 Iniciar Sesión
                                 <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
                             </button>
@@ -76,7 +76,7 @@ const Header = () => {
                     {user ?
                     <>
                     <Link to={'/profile'}>
-                        <div className='bg-white w-15 h-15 rounded-full ml-5 mr-5 hover:border-3 border-indigo-400'>
+                        <div className='bg-white w-15 h-15 rounded-full ml-5 mr-5 hover:border-3 border-indigo-to-yellow'>
                             <img src={user?.avatar ?? samplePhoto} alt="" className='w-full h-full object-cover rounded-full' />
                         </div>
                     </Link>

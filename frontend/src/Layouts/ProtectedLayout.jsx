@@ -26,7 +26,7 @@ const ProtectedLayout = () => {
 
 
   if(loading){
-    return <div class = 'h-screen flex justify-center items-center'>
+    return <div className = 'h-screen flex justify-center items-center'>
         <LoaderComponent/>
     </div>
     }

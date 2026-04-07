@@ -245,7 +245,7 @@ const Details = () => {
                             <>
                                 {user.description ?
                                     <>
-                                        <p className='text-lg'>
+                                        <p className='text-lg text-justify'>
                                             {user.description}
                                         </p>
                                     </>:

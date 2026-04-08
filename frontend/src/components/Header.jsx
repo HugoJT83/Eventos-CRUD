@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/app_logo.svg'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -25,6 +25,30 @@ const Header = () => {
 
     const {pathname} = useLocation()
     const protectedRoute = ['/dashboard','/profile']
+
+    const icons = [
+        "fa-solid fa-bullseye",
+        "fa-solid fa-chess-knight",
+        "fa-solid fa-leaf",
+        "fa-solid fa-rocket",
+        "fa-solid fa-futbol",
+        "fa-solid fa-table-tennis-paddle-ball",
+        "fa-solid fa-computer",
+        "fa-solid fa-champagne-glasses",
+        "fa-solid fa-dice-d20"
+    ]
+
+    const [currentIcon, setCurrentIcon] = useState(icons[0]);
+    const handleMouseEnter = () => {
+        const randomIndex = Math.floor(Math.random() * icons.length);
+        if (icons[randomIndex] === currentIcon) {
+            handleMouseEnter(); 
+            return;
+        }
+        
+        setCurrentIcon(icons[randomIndex]);
+    };
+
 
   return (
     <>
@@ -63,13 +87,16 @@ const Header = () => {
                     <>
                         <button onClick={logoutUser} className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                             Cerrar sesión
-                            <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
+                            <FontAwesomeIcon icon="fa-regular fa-circle-xmark" className='p-1'></FontAwesomeIcon>
                         </button>
                     </>:
                         <Link to={'/login'}>
-                            <button className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button
+                                onMouseEnter={handleMouseEnter}
+                                className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center ease-in-out hover:bg-gray-300 hover:scale-110 transition-all m-2 hover:cursor-pointer"
+                            >
                                 Iniciar Sesión
-                                <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
+                                <FontAwesomeIcon icon={currentIcon} className='p-1'></FontAwesomeIcon>
                             </button>
                         </Link>}
                 

@@ -9,6 +9,7 @@ import AuthLayout from "./Layouts/AuthLayout";
 import { Dashboard } from "./pages/Dashboard";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
 import ProfileUser from "./pages/auth/ProfileUser";
+import addEvent from "./pages/Events/AddEvent";
 
 const App = () => {
   return (
@@ -17,13 +18,13 @@ const App = () => {
         <Route path="/" Component={MainLayout}> 
           <Route index Component={Home}/>
 
-          <Route Component={ProtectedLayout}>
-
-          <Route path='/dashboard' Component={Dashboard}/>
-
-          <Route path='/profile' Component={ProfileUser}/>
-          </Route>
+          {/* <Route path="/event/AddEvent" Component={addEvent}/> */}
           
+          
+          <Route Component={ProtectedLayout}>
+            <Route path='/dashboard' Component={Dashboard}/>
+            <Route path='/profile' Component={ProfileUser}/>
+          </Route>
         </Route>
 
         

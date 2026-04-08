@@ -58,7 +58,7 @@ const FloatingMenu = () => {
                     </div>
 
                     <div>
-                        <p className='ml-2'>Fuente adaptada a dislexia</p>
+                        <p className='ml-2'>Ayuda a la dislexia</p>
                         <div className='flex gap-2 p-2'>
                             <button 
                                 onClick={() => setConfig({...config, dyslexicFont: !config.dyslexicFont})}

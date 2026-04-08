@@ -98,14 +98,23 @@ async def profileService(userId: str):
 async def updateAvatarService(avatar: Annotated[UploadFile,File()], userId: str):
     exist = await profile_collection.find_one({"user_id":userId})
     
-    if exist.get('avatar') and exist['avatar'].get('public_id'):
-        cloudinary.uploader.destroy(exist['avatar']['public_id'])
+    if exist and exist.get('avatar') and exist['avatar'].get('public_id'):
+        try:
+            cloudinary.uploader.destroy(exist['avatar']['public_id'])
+        except Exception as e:
+            raise HTTPException(status_code=404,detail="Profile Avatar Update Error")
     
     
     contents = await avatar.read()
-    upload_result = cloudinary.uploader.upload(contents, folder="events_user_profile")
     
-    await profile_collection.find_one_and_update({"user_id":userId},{
+    upload_result = cloudinary.uploader.upload(
+        contents,
+        folder="events_user_profile",
+        resource_type="image")
+    
+    await profile_collection.find_one_and_update(
+        {"user_id":userId},
+        {
             "$set":{
                 "avatar":{
                     "image_uri":upload_result['secure_url'],
@@ -113,9 +122,10 @@ async def updateAvatarService(avatar: Annotated[UploadFile,File()], userId: str)
                 },
                 "update_at":datetime.now()
             }
-    })
+        }
+    )
     return {
-        "msg":"Profile Updated Success"
+        "msg":"Profile Updated Success",
     }
     
 async def UpdateDetailsService(data: UpdateDetails, userId:str):

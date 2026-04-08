@@ -67,6 +67,8 @@ class UserProfile(BaseModel):
     description:Optional[str] = ""
     interests: List[InterestsEnum] = Field(default=[], max_items=4)
     address: Optional[Address] = None
+    created_events: List[str] = Field(default=[])
+    joined_events: List[str] = Field(default = [])
     
     created_at:datetime = Field(default_factory=datetime.now)
     update_at:datetime = Field(default_factory=datetime.now)

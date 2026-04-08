@@ -60,7 +60,7 @@ const AvatarComponent = () => {
       {
         isDragActive ?
           <>
-            <img src={user?.avatar} alt="profile_photo" className='rounded-full w-full h-full object-cover blur-sm' />
+            <img src={user?.avatar ?? samplePhoto} alt="profile_photo" className='rounded-full w-full h-full object-cover blur-sm' />
             
           </> :
             <>

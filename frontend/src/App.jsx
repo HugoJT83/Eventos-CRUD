@@ -9,7 +9,7 @@ import AuthLayout from "./Layouts/AuthLayout";
 import { Dashboard } from "./pages/Dashboard";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
 import ProfileUser from "./pages/auth/ProfileUser";
-import addEvent from "./pages/Events/AddEvent";
+import AddEvent from "./pages/Events/AddEvent";
 
 const App = () => {
   return (
@@ -17,18 +17,17 @@ const App = () => {
       <Routes>
         <Route path="/" Component={MainLayout}> 
           <Route index Component={Home}/>
-
-          {/* <Route path="/event/AddEvent" Component={addEvent}/> */}
           
-          
+          {/* Rutas protegidas */}
           <Route Component={ProtectedLayout}>
             <Route path='/dashboard' Component={Dashboard}/>
             <Route path='/profile' Component={ProfileUser}/>
+            <Route path="/events/create-event" Component={AddEvent}/>
           </Route>
         </Route>
 
         
-
+        {/* Rutas de acceso a la app */}
         <Route Component={AuthLayout}>
           <Route path="/login" Component={LoginUser}/>
           <Route path="/register" Component={RegisterUser}/>

@@ -17,11 +17,14 @@ from datetime import datetime, timedelta
 from config.env import ENVConfig
 
 async def registerService(data:RegisterUser):
+    
+    """ Comprueba si ya existe el usuario """
     check_exist = await user_collection.find_one({"email":data.email.lower()})
     
     if check_exist:
         raise HTTPException(status_code=400,detail="User already exists")
     
+    """ Encriptacion de la contraseña """
     salt = bcrypt.gensalt()
     # print(salt)
     hash_string = bcrypt.hashpw(data.password.encode(),salt).decode()
@@ -29,16 +32,20 @@ async def registerService(data:RegisterUser):
     user_data['password']=hash_string
     """ del user_data['name'] """
     
+    """ Insercion en la BD del usuario """
     user_data['email'] = data.email.lower()
     doc = await user_collection.insert_one(user_data)
     
     #profile
     
+    """ Se crea una instancia de perfil de usuario con el id de usuario guardado en user_id """
     user_p = authModel.UserProfile(user_id=str(doc.inserted_id), name=data.name)
     
+    """ Inserción del perfil en la colección de perfiles """
     await profile_collection.insert_one(user_p.dict())
     
     
+    """ Se genera un token de almacenamiento local con el id de usuario """
     # token
     token = jwt.encode({
         "user_id":str(doc.inserted_id),
@@ -73,12 +80,14 @@ async def loginService(data: LoginUser):
     }
 
 async def profileService(userId: str):
+    """ Comprueba que existe el usuario """
     check_exist = await user_collection.find_one({"_id":bson.ObjectId(userId)},{
         "password":0
     })
     if not check_exist:
         raise HTTPException(status_code=404,detail="User Details not Found")
     
+    """ Busca si existe un perfil de usuario """
     check_exist['_id'] = str(check_exist['_id'])
     profile = await profile_collection.find_one({"user_id":check_exist['_id']})
     

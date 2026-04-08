@@ -129,7 +129,7 @@ const addEvent = () => {
                                 </div>
 
                                 {/* Intereses */}
-                                <div>
+                                <div className='p-2'>
                                     <h1 htmlFor="event_date" className='text-2xl m-1 font-Bitcount text-indigo-to-yellow'>
                                         Temática
                                     </h1>

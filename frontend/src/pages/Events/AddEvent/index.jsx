@@ -380,7 +380,8 @@ const addEvent = () => {
                             
 
                             {/* ubicacion */}
-                            <div>
+                            <div className='p-2 text-center md:text-left'>
+                                <h1 className='font-Bitcount text-2xl text-indigo-to-yellow'>Ubicación<sup>*</sup></h1>
                                 {/* calle */}
                                 <div>
 

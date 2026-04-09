@@ -27,7 +27,9 @@ const LoginUser = () => {
   const {fetchUserProfile} = useAuthContext()
 
   const ValidationSchema = yup.object({
-        email:yup.string().required('El correo electrónico es obligatorio'),
+        email:yup.string()
+        .matches(/^[a-zA-Z0-0._%+-]+@[a-zA-Z0-0.-]+\.[a-zA-Z]{2,}$/, 'Introduce un correo electrónico valido (ej: usuario@dominio.com)')
+        .required('El correo electrónico es obligatorio'),
         password:yup.string().required('La contraseña es obligatoria').min(8, "La contraseña debe tener más de 8 caracteres"),
   })
 

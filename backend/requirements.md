@@ -3,7 +3,6 @@
 Se debe crear un entorno virtual en Python para el funcionamiento correcto de la aplicación; para ello, se debe ejecutar el siguiente comando en una terminal desde el directorio:
 ```
     python -m venv venv
-
 ```
 
 ---

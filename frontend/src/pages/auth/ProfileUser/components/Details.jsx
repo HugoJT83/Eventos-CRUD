@@ -285,7 +285,7 @@ const Details = () => {
                             <>
                                 {/* Se muestra una lista con todos los intereses; seleccionados los que tenga el usuario */}
                                 <p className='text-indigo-to-black italic'>Puedes seleccionar hasta 4 intereses.</p>
-                                <div className='grid grid-cols-4 gap-3 p-4 sm:grid-cols-3'>
+                                <div className='grid grid-cols-2  lg:grid-cols-4 gap-3 p-4'>
                                 {Object.entries(INTERESTS_CONFIG).map(([key,config]) =>{
                                     const isSelected = values.interests.includes(key);
 
@@ -315,7 +315,7 @@ const Details = () => {
                                 {/* Se muestran los 4 intereses marcados por el usuario */}
                                 {user.interests && user.interests.length > 0 ?
                                     <>
-                                        <div className='grid grid-cols-4 gap-3 p-4'>
+                                        <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 p-4'>
                                             {user.interests?.map((key)=>{
                                                 const config = INTERESTS_CONFIG[key];
 

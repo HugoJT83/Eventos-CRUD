@@ -17,6 +17,7 @@ Para añadir un fontawesome:
 */
 
 import samplePhoto from "../assets/profile_photo.png"
+import { INTERESTS_CONFIG } from '../constant/interestsConfig'
 
 const Header = () => {
 
@@ -26,27 +27,17 @@ const Header = () => {
     const {pathname} = useLocation()
     const protectedRoute = ['/dashboard','/profile']
 
-    const icons = [
-        "fa-solid fa-bullseye",
-        "fa-solid fa-chess-knight",
-        "fa-solid fa-leaf",
-        "fa-solid fa-rocket",
-        "fa-solid fa-futbol",
-        "fa-solid fa-table-tennis-paddle-ball",
-        "fa-solid fa-computer",
-        "fa-solid fa-champagne-glasses",
-        "fa-solid fa-dice-d20"
-    ]
+    const interests = Object.values(INTERESTS_CONFIG).map(interest =>  interest.icon);
 
-    const [currentIcon, setCurrentIcon] = useState(icons[0]);
+        const [currentIcon, setCurrentIcon] = useState(interests[0]);
     const handleMouseEnter = () => {
-        const randomIndex = Math.floor(Math.random() * icons.length);
-        if (icons[randomIndex] === currentIcon) {
+        const randomIndex = Math.floor(Math.random() * interests.length);
+        if (interests[randomIndex] === currentIcon) {
             handleMouseEnter(); 
             return;
         }
         
-        setCurrentIcon(icons[randomIndex]);
+        setCurrentIcon(interests[randomIndex]);
     };
 
 
@@ -76,7 +67,7 @@ const Header = () => {
                         </Link>
                     </>:
                         <Link to={'/register'}>
-                            <button className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center ease-in-out hover:bg-gray-300 hover:scale-110 transition-all m-2 hover:cursor-pointer">
                                 Registrarse
                                 <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
                             </button>
@@ -85,7 +76,7 @@ const Header = () => {
                     {/* Boton login/logout */}
                     {user ? 
                     <>
-                        <button onClick={logoutUser} className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                        <button onClick={logoutUser} className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center ease-in-out hover:bg-gray-300 hover:scale-110 transition-all m-2 hover:cursor-pointer">
                             Cerrar sesión
                             <FontAwesomeIcon icon="fa-regular fa-circle-xmark" className='p-1'></FontAwesomeIcon>
                         </button>
@@ -93,7 +84,7 @@ const Header = () => {
                         <Link to={'/login'}>
                             <button
                                 onMouseEnter={handleMouseEnter}
-                                className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center ease-in-out hover:bg-gray-300 hover:scale-110 transition-all m-2 hover:cursor-pointer"
+                                className="bg-indigo-to-yellow text-white-to-black rounded-lg p-2 flex items-center ease-in-out hover:scale-110 transition-all m-2 hover:cursor-pointer"
                             >
                                 Iniciar Sesión
                                 <FontAwesomeIcon icon={currentIcon} className='p-1'></FontAwesomeIcon>

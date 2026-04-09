@@ -11,7 +11,7 @@ export const Dashboard = () => {
     
     <>
       <section className="text-black body-font">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-18 mx-auto">
 
           
           <div className="flex flex-wrap -m-4">

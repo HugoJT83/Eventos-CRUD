@@ -54,13 +54,13 @@ La aplicación se puede ejecutar de forma local considerando las siguientes anot
 
 - Los siguientes comandos deben ser ejecutados desde sus respectivos directorios para levantar los servicios:
 
-    - directorio [frontend](./frontend):
+    - directorio [frontend](./frontend); el servicio actúa en el **puerto 5173**:
 
     ```
         npm run dev
-    ```  
+    ```
 
-    - directorio [backend](./backend):
+    - directorio [backend](./backend); el servicio actúa en el **puerto 8000**:
 
     ```
         uvicorn app:app --reload

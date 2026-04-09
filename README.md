@@ -45,7 +45,7 @@ La aplicación se puede ejecutar de forma local considerando las siguientes anot
 
 - La aplicación utiliza variables de entorno para el almacenamiento de credenciales; fuese a utilizarse, debiérase renombrarse el archivo ".env.example" existente en la carpeta [backend](./backend) a ".env", introduciendo en ella las credenciales propias.
 
-- Todas las dependencias utilizadas en el backend quedan especificadas en el archivo "requirements.md" del directorio [backend](./backend); estas deben ejecutarse en consola desde el directorio indicado.
+- Todas las dependencias utilizadas en el backend quedan especificadas en el archivo [requirements.md](./backend/requirements.md) del directorio [backend](./backend); estas deben ejecutarse en consola desde el directorio indicado.
 
 - Todas las dependendias utilizadas en el frontend se pueden descargar utilizando el siguiente comando desde una terminal en el directorio [frontend](./frontend):
 ```

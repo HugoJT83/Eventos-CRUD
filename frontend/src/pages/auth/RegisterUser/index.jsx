@@ -69,19 +69,19 @@ const RegisterUser = () => {
           
           {/* Volver */}
           <Link to={'/'}>
-            <button className='m-3 font-Bitcount hover:cursor-pointer text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
+            <button className='m-3 font-Bitcount hover:cursor-pointer text-white-to-black bg-indigo-to-yellow border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
               <FontAwesomeIcon icon='fa-solid fa-arrow-left' className='pr-2'></FontAwesomeIcon>
               Volver
             </button>
           </Link>
 
 
-          <div className="container px-5 py-24 mx-auto flex flex-wrap items-center pl-40 pr-40">
+          <div className="container px-5 py-2 mx-auto flex flex-wrap items-center pl-40 pr-40">
             
             {/* Texto */}
             <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-              <h1 className="title-font font-medium text-3xl text-gray-900 font-Bitcount">Encuentra eventos de tu interés y conecta</h1>
-              <p className="leading-relaxed mt-4">Regístrate ahora y comienza a buscar; seguro que encuentras algo que llame tu atención.</p>
+              <h1 className="title-font font-medium text-3xl text-black-to-white font-Bitcount">Encuentra eventos de tu interés y conecta</h1>
+              <p className="leading-relaxed mt-4 text-black-to-white">Regístrate ahora y comienza a buscar; seguro que encuentras algo que llame tu atención.</p>
             </div>
 
             <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
@@ -117,11 +117,11 @@ const RegisterUser = () => {
                 
                 
                 <div className='mb-3 flex justify-center items-center gap-x-6'>
-                  <div className='w-full h-[0.1000px] bg-gray-400'></div>
+                  <div className='w-full h-[2px] bg-gray-400'></div>
                   <div>
                     <FontAwesomeIcon icon="fa-solid fa-hand-peace"></FontAwesomeIcon>
                   </div>
-                  <div className='w-full h-[0.1000px] bg-gray-400'></div>
+                  <div className='w-full h-[2px] bg-gray-400'></div>
                 </div>
                 
                 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/app_logo.svg'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -16,6 +16,8 @@ Para añadir un fontawesome:
 <FontAwesomeIcon icon="fa-solid fa-house"></FontAwesomeIcon>
 */
 
+import samplePhoto from "../assets/profile_photo.png"
+
 const Header = () => {
 
     const user = useSelector(UserSlicePath)
@@ -23,6 +25,30 @@ const Header = () => {
 
     const {pathname} = useLocation()
     const protectedRoute = ['/dashboard','/profile']
+
+    const icons = [
+        "fa-solid fa-bullseye",
+        "fa-solid fa-chess-knight",
+        "fa-solid fa-leaf",
+        "fa-solid fa-rocket",
+        "fa-solid fa-futbol",
+        "fa-solid fa-table-tennis-paddle-ball",
+        "fa-solid fa-computer",
+        "fa-solid fa-champagne-glasses",
+        "fa-solid fa-dice-d20"
+    ]
+
+    const [currentIcon, setCurrentIcon] = useState(icons[0]);
+    const handleMouseEnter = () => {
+        const randomIndex = Math.floor(Math.random() * icons.length);
+        if (icons[randomIndex] === currentIcon) {
+            handleMouseEnter(); 
+            return;
+        }
+        
+        setCurrentIcon(icons[randomIndex]);
+    };
+
 
   return (
     <>
@@ -32,8 +58,8 @@ const Header = () => {
                 
                 {/* Logo */}
                 <Link to={'/'} className="flex items-center max-w-15">
-                <img src={logo} className='' alt="" />
-                <span className="text-3xl font-Bitcount mt-2 ml-2">Eventos</span>
+                    <img src={logo} className='' alt="" />
+                    <p className="text-3xl text-black-to-white font-Bitcount mt-2 ml-2 transition-[text-shadow] duration-300 hover:text-shadow-[6px_4px_0px]  hover:text-shadow-indigo-to-yellow">Maze</p>
                 </Link>
                 
                 {/* Botones */}
@@ -43,14 +69,14 @@ const Header = () => {
                     {user ?
                     <>
                         <Link to={'/dashboard'}>
-                            <button className="bg-indigo-500 rounded-lg p-2 flex align-middle items-center text-white transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-indigo-to-yellow rounded-lg p-2 flex align-middle items-center text-white-to-black transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                                 Dashboard
                                 <FontAwesomeIcon icon="fa-regular fa-rectangle-list" className='p-1'></FontAwesomeIcon>
                             </button>
                         </Link>
                     </>:
                         <Link to={'/register'}>
-                            <button className="bg-gray-200 rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            <button className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
                                 Registrarse
                                 <FontAwesomeIcon icon="fa-regular fa-user" className='p-1'></FontAwesomeIcon>
                             </button>
@@ -59,17 +85,33 @@ const Header = () => {
                     {/* Boton login/logout */}
                     {user ? 
                     <>
-                        <button onClick={logoutUser} className="bg-gray-200 rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">Cerrar sesión
-                            <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
+                        <button onClick={logoutUser} className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">
+                            Cerrar sesión
+                            <FontAwesomeIcon icon="fa-regular fa-circle-xmark" className='p-1'></FontAwesomeIcon>
                         </button>
                     </>:
                         <Link to={'/login'}>
-                            <button className="bg-gray-200 rounded-lg p-2 flex items-center transition ease-in-out hover:bg-gray-300 m-2 hover:cursor-pointer">Iniciar Sesión
-                                <FontAwesomeIcon icon="fa-regular fa-truck" className='p-1'></FontAwesomeIcon>
+                            <button
+                                onMouseEnter={handleMouseEnter}
+                                className="bg-gray-to-yellow text-black rounded-lg p-2 flex items-center ease-in-out hover:bg-gray-300 hover:scale-110 transition-all m-2 hover:cursor-pointer"
+                            >
+                                Iniciar Sesión
+                                <FontAwesomeIcon icon={currentIcon} className='p-1'></FontAwesomeIcon>
                             </button>
                         </Link>}
                 
-
+                    {user ?
+                    <>
+                    <Link to={'/profile'}>
+                        <div className='bg-white w-15 h-15 rounded-full ml-5 mr-5 hover:border-3 border-indigo-to-yellow'>
+                            <img src={user?.avatar ?? samplePhoto} alt="" className='w-full h-full object-cover rounded-full' />
+                        </div>
+                    </Link>
+                    </>:
+                    <>
+                    
+                    </>
+                    }
                 </div>
                 
             </div>

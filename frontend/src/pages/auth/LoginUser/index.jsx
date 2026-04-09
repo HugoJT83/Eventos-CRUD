@@ -70,22 +70,22 @@ const LoginUser = () => {
         
         {/* Volver */}
         <Link to={'/'}>
-        <button className='m-3 font-Bitcount hover:cursor-pointer text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
+        <button className='m-3 font-Bitcount hover:cursor-pointer text-white-to-black bg-indigo-to-yellow border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
           <FontAwesomeIcon icon='fa-solid fa-arrow-left' className='pr-2'></FontAwesomeIcon>
           Volver
         </button>
         </Link>
 
-        <div className="container px-5 py-24 mx-auto flex flex-wrap items-center flex-col">
+        <div className="container px-5 py-2 mx-auto flex flex-wrap items-center flex-col">
           
           {/* Texto de presentacion */}
           <div className='lg:w-3/5 md:w-1/2 flex justify-center'>
             <div className=" md:pr-16 lg:pr-0 pr-0 text-center mb-10 pt-2">
-              <h1 className="title-font font-medium text-2xl text-gray-900 font-Bitcount">Encuentra eventos de tu interés y conecta</h1>
-              <p className="leading-relaxed mt-4">Accede a tus eventos publicados, o maneja los eventos a los que estás apuntado.</p>
+              <h1 className="title-font font-medium text-2xl text-black-to-white font-Bitcount">Encuentra eventos de tu interés y conecta</h1>
+              <p className="leading-relaxed text-black-to-white mt-4">Accede a tus eventos publicados, o maneja los eventos a los que estás apuntado.</p>
             </div>
             <div class="m-5">
-              <FontAwesomeIcon icon='fa-regular fa-lightbulb' class="w-full max-w-10 max-h-fit"></FontAwesomeIcon>
+              <FontAwesomeIcon icon='fa-regular fa-lightbulb' class="w-full max-w-10 max-h-fit text-black-to-white"></FontAwesomeIcon>
             </div>
           </div>
 
@@ -122,15 +122,15 @@ const LoginUser = () => {
 
             <div>
                 <div className='mb-3 flex justify-center items-center gap-x-6'>
-                  <div className='w-full h-[0.1000px] bg-gray-400'></div>
+                  <div className='w-full h-[2px] bg-gray-400'></div>
                   <div>
                     <FontAwesomeIcon icon="fa-solid fa-hand-peace"></FontAwesomeIcon>
                   </div>
-                  <div className='w-full h-[0.1000px] bg-gray-400'></div>
+                  <div className='w-full h-[2px] bg-gray-400'></div>
                 </div>
                 <div className='mb-3 text-center'>
                   <p>
-                    <span className='font-bold'>¿No tienes una cuenta?</span>  <Link to={'/register'} className='font-Bitcount text-indigo-600 hover:text-indigo-700'>Regístrate Aquí</Link>
+                    <span className='font-bold'>¿No tienes una cuenta?</span>  <Link to={'/register'} className='font-Bitcount text-indigo-700 hover:text-indigo-700'>Regístrate Aquí</Link>
                   </p>
                 </div>
             </div>

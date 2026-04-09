@@ -6,11 +6,17 @@ import { axiosClient } from '../utils/axiosClient'
 import LoaderComponent from '../components/ui/LoaderComponent'
 import { useNavigate } from 'react-router-dom'
 
-const AuthContext = createContext()
+const AuthContext = createContext({
+  user:null,
+  fetchUserProfile:()=>{},
+  logoutUser:()=>{},
+})
 
 export const useAuthContext = ()=> useContext(AuthContext)
 
-
+/**
+ * Obtiene los datos guardados en localStorage si los hubiera
+ */
 export const AuthContextProvider = ({children}) => {
 
 
@@ -51,7 +57,7 @@ export const AuthContextProvider = ({children}) => {
     const logoutUser=()=>{
       localStorage.removeItem("token")
       dispatch(removeUser())
-      toast.success("Logout Success")
+      toast.success("Sesión cerrada correctamente")
       navigate("/")
     }
 

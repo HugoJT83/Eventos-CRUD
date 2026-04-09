@@ -32,3 +32,9 @@ async def updateAvatarController(avatar, userId):
     except Exception as e:
         raise HTTPException(status_code=400,detail=e)
     
+async def updateDetailsController(data,userId):
+    try:
+        res_obj = await authService.UpdateDetailsService(data, userId)
+        return res_obj
+    except Exception as e:
+        raise HTTPException(status_code=400,detail=e)

@@ -1,33 +1,21 @@
 # MAZE App
+<p align=center>
+    <img  src="./frontend/public/imgs/app_logo.ico">
+</p>
 
-<div align="center">
-    <img src="./frontend/public/imgs/app_logo.ico">
-</div>
-
-<div align="center">
-
-![Static Badge](https://img.shields.io/badge/Desarrollo_Aplicaciones_Web-blue)
-
-
-![Static Badge](https://img.shields.io/badge/Python-yellow?logo=python)
-
-![Static Badge](https://img.shields.io/badge/React-purple?logo=react)
-
-![Static Badge](https://img.shields.io/badge/FastAPI-green?logo=fastapi)
-
-![Static Badge](https://img.shields.io/badge/TailwindCSS-white?logo=tailwindcss)
-
-![Static Badge](https://img.shields.io/badge/FontAwesome-red?logo=fontawesome&logoColor=yellow)
-
-![Static Badge](https://img.shields.io/badge/MongoDB-black?logo=mongodb)
-
-![Static Badge](https://img.shields.io/badge/Cloudinary-lightblue?logo=cloudinary)
-
-![Static Badge](https://img.shields.io/badge/JavaScript-darkred?logo=javascript&logoColor=white)
-
-
-
-</div>
+<p align=center>
+    <img src="https://img.shields.io/badge/Grado-Desarrollo_Aplicaciones_Web_(DAW)-blue">
+    <br/>
+    <img src="https://img.shields.io/badge/Backend-Python-yellow?logo=python">
+    <img src="https://img.shields.io/badge/Backend-FastAPI-green?logo=fastapi">
+    <img src="https://img.shields.io/badge/Backend-MongoDB-black?logo=mongodb">
+    <img src="https://img.shields.io/badge/Backend-Cloudinary-lightblue?logo=cloudinary">
+    <br/>
+    <img src="https://img.shields.io/badge/Frontend-React-purple?logo=react">
+    <img src="https://img.shields.io/badge/Frontend-TailwindCSS-white?logo=tailwindcss">
+    <img src="https://img.shields.io/badge/Frontend-FontAwesome-red?logo=fontawesome">
+    <img src="https://img.shields.io/badge/Frontend-JavaScript-darkred?logo=javascript">
+</p>
 
 MAZE App es una aplicación web desarrollada como proyecto intermodular de final de Grado Superior de Desarrollo de Aplicaciones web. 
 
@@ -77,8 +65,3 @@ La aplicación se puede ejecutar de forma local considerando las siguientes anot
     ```
         uvicorn app:app --reload
     ```
-
----
-
-
-

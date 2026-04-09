@@ -15,7 +15,7 @@ library.add(fas,far)
 
 const addEvent = () => {
 
-
+    /* Mostrar información de forma condicional */
     const [focusedId,setFocusedId] = useState(null)
     const handleFocusedId = (id) => {
         if(focusedId === id){
@@ -26,6 +26,7 @@ const addEvent = () => {
         }
     }
 
+    /* Edicion de intereses */
     const [editing,setEditing] = useState(false)
     const toggleEdit = () =>{
         setEditing(!editing)
@@ -42,6 +43,7 @@ const addEvent = () => {
         interests:[]
     })
 
+    /* Obtener intereses para validación */
     const validInterests = Object.keys(INTERESTS_CONFIG)
 
     const validationSchema = yup.object({
@@ -69,11 +71,11 @@ const addEvent = () => {
         .min(new Date((new Date().setHours(0,0,0,0))), 'No es posible seleccionar una fecha pasada para la fecha de fin'),
 
         start_hour:yup.string()
-        .required("Es obligatorio aportar una fecha de inicio")
+        .required("Es obligatorio aportar una hora de inicio")
         .matches(/^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/, "el formato es incorrecto (ej: '12:36' )"),
 
         finish_hour:yup.string()
-        .required("Es obligatorio aportar una fecha de fin")
+        .required("Es obligatorio aportar una hora Fin")
         .matches(/^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/, "el formato es incorrecto (ej: '17:14' )"),
 
         interests:yup.array()
@@ -84,26 +86,45 @@ const addEvent = () => {
     }).test(
         'check-hours',
         function (values) {
-            const start_hour = values.start_hour;
-            const finish_hour = values.finish_hour;
-
-
-            /* Si faltase alguno no se continua*/
-            if(!start_hour || !finish_hour)
-                 return true;
+            const {starting_event_date, finish_event_date} = values
             
-            const [startHH, startMM] = start_hour.split(':').map(Number);
-            const [finishHH, finishMM] = finish_hour.split(':').map(Number);
+            const startDate = new Date(starting_event_date).setHours(0,0,0,0)
+            const finishDate = new Date(finish_event_date).setHours(0,0,0,0)
+            
+            /* Si las fechas están vacias se para */
+            if(!starting_event_date || !finish_event_date)
+                return true;
+            
 
-            const startMinutes = startHH * 60 + startMM;
-            const finishMinutes = finishHH * 60 + finishMM;
-
-            if(finishMinutes < startMinutes){
+            /* Valida que la fecha fin no sea anterior a la fecha fin */
+            if(finishDate < startDate){
                 return this.createError({
-                    path:'finish_hour',
-                    message: 'La hora de inicio debe ser anterior a la hora de fin'
+                    path:'finish_event_date',
+                    message: 'La fecha fin no puede ser anterior a la fecha de inicio'
                 })
             }
+
+            const{start_hour, finish_hour} = values
+            
+            /* Si las horas faltan se para*/
+            if(!start_hour || !finish_hour)
+                 return true;
+
+            /* Valida que, si las fechas coinciden, la hora fin no sea anterior a la hora inicio */
+            if(startDate === finishDate){
+                const [startHH, startMM] = start_hour.split(':').map(Number);
+                const [finishHH, finishMM] = finish_hour.split(':').map(Number);
+
+                const startMinutes = startHH * 60 + startMM;
+                const finishMinutes = finishHH * 60 + finishMM; 
+
+                if(finishMinutes <= startMinutes){
+                    return this.createError({
+                        path:'finish_hour',
+                        message: 'En eventos de 1 día, la hora de inicio debe ser anterior a la hora de fin'
+                    })
+                }
+            }   
         }
     )
 
@@ -219,7 +240,8 @@ const addEvent = () => {
                                         <h1 htmlFor="event_date" className='text-2xl m-1 font-Bitcount text-indigo-to-yellow'>
                                             Fecha del evento<sup>*</sup>
                                         </h1>
-                                        <div className='flex justify-center'>
+                                        <div className='flex justify-center flex-col md:flex-row'>
+
                                             <Datepicker
                                             label="Fecha Inicio"
                                             name="starting_event_date"
@@ -227,12 +249,12 @@ const addEvent = () => {
                                             />
 
                                             {/* separador */}
-                                            <div className='mb-1 mt-1 flex flex-col justify-center items-center gap-x-6'>
-                                                <div className='h-1/4 w-0.5 bg-indigo-to-yellow'></div>
+                                            <div className='mb-1 mt-1 flex md:flex-col justify-center items-center gap-x-6'>
+                                                <div className='md:h-1/4 w-1/4 md:w-0.5 h-0.5 bg-indigo-to-yellow'></div>
                                                 <div>
                                                 <FontAwesomeIcon icon="fa-solid fa-calendar-days" className='text-indigo-to-yellow'></FontAwesomeIcon>
                                                 </div>
-                                                <div className='h-1/4 w-0.5 bg-indigo-to-yellow'></div>
+                                                <div className='md:h-1/4 w-1/4 md:w-0.5 h-0.5 bg-indigo-to-yellow'></div>
                                             </div>
 
                                             <Datepicker
@@ -267,7 +289,8 @@ const addEvent = () => {
                                             <Hourpicker
                                                 label="Hora Inicio"
                                                 name="start_hour"
-                                            />                                        
+                                            />         
+                                                                           
                                             {/* separador */}
                                             <div className='mb-1 mt-1 flex flex-col justify-center items-center gap-x-6'>
                                                 <div className='h-1/4 w-0.5 bg-indigo-to-yellow'></div>
@@ -284,7 +307,6 @@ const addEvent = () => {
                                         </div>
                                         <ErrorMessage component={'p'} className='text-red-500 text-sm' name='start_hour'></ErrorMessage>
                                         <ErrorMessage component={'p'} className='text-red-500 text-sm' name='finish_hour'></ErrorMessage>
-                                        <ErrorMessage component={'p'} className='text-red-500 text-sm' name='check-hours'></ErrorMessage>
                                     </div>
                                 </div>
 
@@ -325,7 +347,7 @@ const addEvent = () => {
                                         <>
                                             {values.interests && values.interests.length > 0 ?
                                             <>
-                                                <div className='grid grid-cols-3 gap-3 p-5 pt-7 sm:grid-cols-3 mb-2 bg-white rounded border-2 border-indigo-to-black'>
+                                                <div className='grid grid-cols-2 gap-3 p-5 pt-7 sm:grid-cols-3 mb-2 bg-white rounded border-2 border-indigo-to-black'>
                                                     {values.interests?.map((key)=>{
                                                         const config = INTERESTS_CONFIG[key];
 

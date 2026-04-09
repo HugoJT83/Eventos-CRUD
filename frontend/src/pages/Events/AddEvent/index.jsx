@@ -51,7 +51,7 @@ const addEvent = () => {
         .max(40,"el título no puede tener más de 40 caracteres"),
         
         phone:yup.string()
-        .required("es obligatorio aportar un número de teléfono de referencia")
+        .required("Es obligatorio aportar un número de teléfono de referencia")
         .matches(/^[0-9]{9}$/, "el número de teléfono debe contener 9 dígitos únicamente"),
 
         description:yup.string()
@@ -61,20 +61,20 @@ const addEvent = () => {
         .trim(),
 
         starting_event_date:yup.date()
-        .required("es obligatorio indicar una fecha")
+        .required("Es obligatorio indicar una fecha de inicio")
         .min(new Date((new Date().setHours(0,0,0,0))), 'No es posible seleccionar una fecha pasada para la fecha de inicio'),
 
         finish_event_date:yup.date()
-        .required("es obligatorio indicar una fecha")
+        .required("Es obligatorio indicar una fecha Fin")
         .min(new Date((new Date().setHours(0,0,0,0))), 'No es posible seleccionar una fecha pasada para la fecha de fin'),
 
         start_hour:yup.string()
-        .required("es obligatorio aportar una fecha de inicio")
-        .matches(/^(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])$/, "el formato es incorrecto (ej: '12:36' )"),
+        .required("Es obligatorio aportar una fecha de inicio")
+        .matches(/^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/, "el formato es incorrecto (ej: '12:36' )"),
 
         finish_hour:yup.string()
-        .required("es obligatorio aportar una fecha de fin")
-        .matches(/^(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])$/, "el formato es incorrecto (ej: '17:14' )"),
+        .required("Es obligatorio aportar una fecha de fin")
+        .matches(/^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/, "el formato es incorrecto (ej: '17:14' )"),
 
         interests:yup.array()
         .of(yup.string().oneOf(validInterests, "el tema seleccionado no es válido"))
@@ -83,13 +83,10 @@ const addEvent = () => {
         .required("Indicar al menos un tema es obligatorio")
     }).test(
         'check-hours',
-        'La hora de inicio debe ser anterior a la hora de fin',
         function (values) {
             const start_hour = values.start_hour;
             const finish_hour = values.finish_hour;
 
-            const starting_event_date = values.starting_event_date;
-            const finish_event_date = values.finish_event_date;
 
             /* Si faltase alguno no se continua*/
             if(!start_hour || !finish_hour)
@@ -101,8 +98,12 @@ const addEvent = () => {
             const startMinutes = startHH * 60 + startMM;
             const finishMinutes = finishHH * 60 + finishMM;
 
-            console.log(finishMinutes,startMinutes)
-            return finishMinutes > startMinutes
+            if(finishMinutes < startMinutes){
+                return this.createError({
+                    path:'finish_hour',
+                    message: 'La hora de inicio debe ser anterior a la hora de fin'
+                })
+            }
         }
     )
 

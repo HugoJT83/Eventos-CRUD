@@ -42,7 +42,7 @@ const Locationpicker = ({setFieldValue, values,setFieldTouched}) => {
   return (
     <>
         <div className='grid grid-cols-1 md:grid-cols-3 my-3'>
-            <div className=''>
+            <div className='my-2 md:my-0'>
                 <h1 className='text-sm italic'>Provincia</h1>
                 <select
                     name='province'
@@ -58,7 +58,7 @@ const Locationpicker = ({setFieldValue, values,setFieldTouched}) => {
                 </select>
             </div>
             
-            <div className=''>
+            <div className='my-2 md:my-0'>
                 <h1 className='text-sm italic'>Ciudad</h1>
                 <select
                     name='city'
@@ -75,7 +75,7 @@ const Locationpicker = ({setFieldValue, values,setFieldTouched}) => {
                 </select>
             </div>
 
-            <div>
+            <div className='my-2 md:my-0'>
                 <h1 className='text-sm italic'>Lugar</h1>
                 <input 
                     type="text"

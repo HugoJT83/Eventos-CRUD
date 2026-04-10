@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import * as yup from 'yup'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,13 +8,17 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { INTERESTS_CONFIG } from '../../../constant/interestsConfig'
 import Interest from '../../auth/ProfileUser/components/Interest'
-import { Link } from 'react-router-dom'
+import { data, Link } from 'react-router-dom'
 import Hourpicker from './components/Hourpicker'
 import Datepicker from './components/Datepicker'
 import Locationpicker from './components/Locationpicker'
+import Phoneinput from './components/Phoneinput'
+import EventImage from './components/EventImage'
 library.add(fas,far)
 
 const addEvent = () => {
+
+    const[loading,setLoading] = useState(false)
 
     /* Mostrar información de forma condicional */
     const [focusedId,setFocusedId] = useState(null)
@@ -46,7 +50,8 @@ const addEvent = () => {
             city: '',
             direction: ''
         },
-        interests:[]
+        interests:[],
+        images:[]
     })
 
     /* Obtener intereses para validación */
@@ -94,7 +99,9 @@ const addEvent = () => {
             province: yup.string().required("La provincia es obligatoria"),
             city: yup.string().required("La ciudad es obligatoria"),
             direction: yup.string().required("El lugar es obligatorio").min(5,"la dirección debe tener al menos 5 caracteres")
-        })
+        }),
+
+        images:yup.array().min(1,"Al menos una imagen es obligatoria").max(5,"No se pueden añadir más de 5 imágenes").required("Añadir imágenes es obligatorio")
     }).test(
         'check-hours',
         function (values) {
@@ -174,14 +181,14 @@ const addEvent = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmitHandler}
             >
-            {({values,setFieldValue,setFieldTouched}) =>(
+            {({values,setFieldValue,setFieldTouched,setFieldError}) =>(
 
             
                     <Form className='justify-center flex'>
                         <div className='bg-lightgray-to-black p-6 w-240 rounded border-2 border-indigo-to-yellow'>
                             <span className='p-2 italic text-sm text-indigo-to-yellow'>'*' indica un campo obligatorio.</span>
                             {/* Grupo 1 - titulo y teléfono */}
-                            <div className='grid grid-cols-1 md:grid-cols-2'>
+                            <div className='grid grid-cols-1 md:grid-cols-2 '>
                                 {/*1.1. Titulo */}
                                 <div className=' p-2 text-center md:text-left'>
                                     <h1 htmlFor="title" className='text-2xl m-1 font-Bitcount text-indigo-to-yellow'>
@@ -200,12 +207,9 @@ const addEvent = () => {
                                     <h1 htmlFor="phone" className='text-2xl m-1 font-Bitcount text-indigo-to-yellow'>
                                         Número de teléfono<sup>*</sup>
                                     </h1>
-                                    <Field 
-                                        type="tel"
+                                    <Phoneinput
                                         name="phone"
                                         id="phone"
-                                        placeholder="+34 222 333 444"
-                                        className="bg-white-to-black rounded border-2 border-indigo-to-yellow w-full p-1"
                                     />
                                     <ErrorMessage component={'p'} name='phone' className='text-red-500'></ErrorMessage>
                                 </div>
@@ -230,7 +234,7 @@ const addEvent = () => {
                                     <Field 
                                         as="textarea"
                                         rows="4"
-                                        className="w-full bg-white-to-black border-2 border-indigo-to-yellow rounded"
+                                        className="w-full p-2 bg-white-to-black border-2 border-indigo-to-yellow rounded"
                                         name="description"
                                         id='description'
                                         maxLength={500}
@@ -414,16 +418,27 @@ const addEvent = () => {
                                         values={values}
                                         setFieldTouched={setFieldTouched}
                                     />
-                                    <ErrorMessage name='location.province' component={'p'} className='text-red-500'/>
-                                    <ErrorMessage name='location.city' component={'p'} className='text-red-500'/>
-                                    <ErrorMessage name='location.direction' component={'p'} className='text-red-500'/>
+                                    <div className='grid grid-cols-1 md:grid-cols-3'>
+                                        <ErrorMessage name='location.province' component={'p'} className='text-red-500'/>
+                                        <ErrorMessage name='location.city' component={'p'} className='text-red-500'/>
+                                        <ErrorMessage name='location.direction' component={'p'} className='text-red-500'/>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Imágenes */}
-                            <div>
-
+                            <div className='p-2'>
+                                <h1 className='font-Bitcount text-2xl text-indigo-to-yellow'>Imágenes<sup>*</sup></h1>
+                                <EventImage
+                                    name="images"
+                                    setFieldValue={setFieldValue}
+                                    values={values}
+                                    setFieldError={setFieldError}
+                                    setFieldTouched={setFieldTouched}
+                                />
+                                <ErrorMessage name='images' component={'p'} className='text-red-500'></ErrorMessage>
                             </div>
+
                         </div>
                     </Form>
             )}

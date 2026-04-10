@@ -20,6 +20,7 @@ const Hourpicker = ({label,...props}) => {
       <div className='flex flex-col items-center m-2 px-3 w-40'> 
         <label className='italic text-sm'>{label}</label>
         <input
+          type='text'
           {...props}
           value={field.value}
           onChange={handleChange} /* Toma el valor introducido conforme se escribe */

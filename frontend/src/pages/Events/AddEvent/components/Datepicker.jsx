@@ -12,7 +12,7 @@ const Datepicker = ({label,...props}) => {
 
   return (
     <div className='flex flex-col items-center m-2 px-1'>
-            <label className='italic'>{label}</label>
+            <label className='italic text-sm'>{label}</label>
             <input
                 {...props}
                 type="date"

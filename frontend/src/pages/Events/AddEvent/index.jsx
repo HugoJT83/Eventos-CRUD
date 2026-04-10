@@ -11,6 +11,7 @@ import Interest from '../../auth/ProfileUser/components/Interest'
 import { Link } from 'react-router-dom'
 import Hourpicker from './components/Hourpicker'
 import Datepicker from './components/Datepicker'
+import Locationpicker from './components/Locationpicker'
 library.add(fas,far)
 
 const addEvent = () => {
@@ -40,6 +41,11 @@ const addEvent = () => {
         finish_event_date:'',
         start_hour:'',
         finish_hour:'',
+        location: {
+            province: '',
+            city: '',
+            direction: ''
+        },
         interests:[]
     })
 
@@ -82,7 +88,13 @@ const addEvent = () => {
         .of(yup.string().oneOf(validInterests, "el tema seleccionado no es válido"))
         .min(1, "selecciona al menos un tema")
         .max(3, "Puedes seleccionar como máximo 3 temas")
-        .required("Indicar al menos un tema es obligatorio")
+        .required("Indicar al menos un tema es obligatorio"),
+
+        location: yup.object().shape({
+            province: yup.string().required("La provincia es obligatoria"),
+            city: yup.string().required("La ciudad es obligatoria"),
+            direction: yup.string().required("El lugar es obligatorio").min(5,"la dirección debe tener al menos 5 caracteres")
+        })
     }).test(
         'check-hours',
         function (values) {
@@ -162,7 +174,7 @@ const addEvent = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmitHandler}
             >
-            {({values,setFieldValue}) =>(
+            {({values,setFieldValue,setFieldTouched}) =>(
 
             
                     <Form className='justify-center flex'>
@@ -236,10 +248,17 @@ const addEvent = () => {
                                 <div className='p-2 text-center'>
 
                                     {/* 2.1.1. - fecha */}
-                                    <div >
+                                    <div 
+                                        onFocus={()=>setFocusedId(2)}
+                                    >
                                         <h1 htmlFor="event_date" className='text-2xl m-1 font-Bitcount text-indigo-to-yellow'>
                                             Fecha del evento<sup>*</sup>
                                         </h1>
+                                        {focusedId === 2 ? 
+                                            <h2 className='italic text-sm text-center m-2'>
+                                                Si el evento transcurre durante el día, indique el mismo día para ambos campos.
+                                            </h2> : null
+                                        }
                                         <div className='flex justify-center flex-col md:flex-row'>
 
                                             <Datepicker
@@ -270,13 +289,13 @@ const addEvent = () => {
 
                                     {/* 2.2.2. hora */}
                                     <div className='mt-3'
-                                        onFocus={()=>setFocusedId(2)}
+                                        onFocus={()=>setFocusedId(3)}
                                     >
                                         <h1 htmlFor="event_date" className='text-2xl m-1 font-Bitcount text-indigo-to-yellow'>
                                             Horario del evento<sup>*</sup>
                                         </h1>
 
-                                        {focusedId === 2 ? 
+                                        {focusedId === 3 ? 
                                             <h2 className='italic text-sm text-center m-2'>
                                                 Utilice el formato de 24h.
                                             </h2> : null
@@ -317,7 +336,6 @@ const addEvent = () => {
                                     </h1>
                                     {editing ? 
                                         <>
-                                            <p className='italic p-2 text-black-to-white text-center'>Puedes seleccionar hasta 3 temas que definan tu evento.</p>
                                             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-5 pt-7 sm:grid-cols-3 mb-2 bg-white rounded border-2 border-indigo-to-black'>
                                             {Object.entries(INTERESTS_CONFIG).map(([key,config]) =>{
                                                 const isSelected = values.interests.includes(key);
@@ -347,21 +365,21 @@ const addEvent = () => {
                                         <>
                                             {values.interests && values.interests.length > 0 ?
                                             <>
-                                                <div className='grid grid-cols-2 gap-3 p-5 pt-7 sm:grid-cols-3 mb-2 bg-white rounded border-2 border-indigo-to-black'>
-                                                    {values.interests?.map((key)=>{
-                                                        const config = INTERESTS_CONFIG[key];
+                                                    <div className='grid grid-cols-2 gap-3 p-5 pt-7 mt-8 sm:grid-cols-3 mb-2 bg-white rounded border-2 border-indigo-to-black'>
+                                                        {values.interests?.map((key)=>{
+                                                            const config = INTERESTS_CONFIG[key];
 
-                                                        return config ? 
-                                                        
-                                                            <Interest
-                                                                key={key}
-                                                                icon={config.icon}
-                                                                label={config.label}
-                                                                selectable={false}
-                                                            />
-                                                        :null;
-                                                    })}
-                                                </div>
+                                                            return config ? 
+                                                            
+                                                                <Interest
+                                                                    key={key}
+                                                                    icon={config.icon}
+                                                                    label={config.label}
+                                                                    selectable={false}
+                                                                />
+                                                            :null;
+                                                        })}
+                                                    </div>
                                             </>:
                                             null
                                             }
@@ -375,6 +393,12 @@ const addEvent = () => {
                                             {editing? "Confirmar" : "Selecciona los temas" }
                                     </button>
 
+                                    {values.interests && values.interests.length === 0 && !editing ?
+                                    <>
+                                        <p className='italic p-2 my-4 text-black-to-white text-center'>Puedes seleccionar hasta 3 temas que definan tu evento.</p>
+                                    </> :
+                                    null   
+                                    }
                                 </div>
                             </div>
                             
@@ -384,28 +408,16 @@ const addEvent = () => {
                                 <h1 className='font-Bitcount text-2xl text-indigo-to-yellow'>Ubicación<sup>*</sup></h1>
                                 {/* calle */}
                                 <div>
-
+                                    <Locationpicker
+                                        label="ubicacion"
+                                        setFieldValue={setFieldValue}
+                                        values={values}
+                                        setFieldTouched={setFieldTouched}
+                                    />
+                                    <ErrorMessage name='location.province' component={'p'} className='text-red-500'/>
+                                    <ErrorMessage name='location.city' component={'p'} className='text-red-500'/>
+                                    <ErrorMessage name='location.direction' component={'p'} className='text-red-500'/>
                                 </div>
-
-                                {/* Ciudad */}
-                                <div>
-
-                                </div>
-
-                                {/* provincia */}
-                                <div>
-
-                                </div>
-
-                                {/* codigo postal */}
-                                <div>
-
-                                </div>
-                            </div>
-
-                            {/* Intereses -> Importar interes */}
-                            <div>
-
                             </div>
 
                             {/* Imágenes */}

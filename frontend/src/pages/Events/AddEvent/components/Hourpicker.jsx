@@ -18,14 +18,14 @@ const Hourpicker = ({label,...props}) => {
 
     return (
       <div className='flex flex-col items-center m-2 px-3 w-40'> 
-        <label className='italic'>{label}</label>
+        <label className='italic text-sm'>{label}</label>
         <input
           {...props}
           value={field.value}
           onChange={handleChange} /* Toma el valor introducido conforme se escribe */
           onBlur={()=>helpers.setTouched(true)} /* necesario para que se muestren los errores en tiempo real */
           placeholder='00:00'
-          className='bg-white-to-black text-center w-14  my-2 placeholder:text-gray-to-yellow border-indigo-to-yellow border-2 rounded'
+          className='bg-white-to-black text-center w-14 placeholder:text-gray-to-yellow border-indigo-to-yellow border-2 rounded'
         />
       </div>
     )

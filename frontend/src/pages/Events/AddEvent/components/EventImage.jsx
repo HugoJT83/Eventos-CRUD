@@ -15,11 +15,13 @@ const EventImage = ({setFieldValue, values, name, setFieldError,setFieldTouched}
 
   /* Recoger imagenes y apilarlas */
   const onDrop = useCallback(acceptedFiles => {
+    setFieldTouched(name,true,false)
     setFieldError(name,undefined)
 
+    /* Comprobacion de tamaño de nuevas imagenes añadidas para mostrar errores */
     if(acceptedFiles && acceptedFiles.length > 0){
       
-      if(images.length + acceptedFiles.length > 5){
+      if((images.length + acceptedFiles.length) > 5){
         setFieldTouched(name,true,false)
         setFieldError(name,"No se pueden añadir más de 5 imágenes")
         return;
@@ -34,7 +36,6 @@ const EventImage = ({setFieldValue, values, name, setFieldError,setFieldTouched}
   const {getRootProps, getInputProps,isDragActive} = useDropzone({
     onDrop,
     multiple:true,
-    maxFiles:5,
     disabled: images.length >= 5,
     accept:{
       'image/jpeg':['.jpeg','.jpg'],

@@ -51,7 +51,8 @@ const addEvent = () => {
             direction: ''
         },
         interests:[],
-        images:[]
+        images:[],
+        terms:false
     })
 
     /* Obtener intereses para validación */
@@ -101,7 +102,13 @@ const addEvent = () => {
             direction: yup.string().required("El lugar es obligatorio").min(5,"la dirección debe tener al menos 5 caracteres")
         }),
 
-        images:yup.array().min(1,"Al menos una imagen es obligatoria").max(5,"No se pueden añadir más de 5 imágenes").required("Añadir imágenes es obligatorio")
+        images:yup.array()
+        .min(1,"Al menos una imagen es obligatoria")
+        .max(5,"No se pueden añadir más de 5 imágenes").required("Añadir imágenes es obligatorio"),
+
+        terms:yup.boolean()
+        .oneOf([true], "Debes aceptar los términos y condiciones para publicar eventos.")
+        .required("Campo obligatorio")
     }).test(
         'check-hours',
         function (values) {
@@ -403,6 +410,7 @@ const addEvent = () => {
                                     </> :
                                     null   
                                     }
+                                    <ErrorMessage name='interests' component={'p'} className='text-red-500 text-center'></ErrorMessage>
                                 </div>
                             </div>
                             
@@ -418,7 +426,7 @@ const addEvent = () => {
                                         values={values}
                                         setFieldTouched={setFieldTouched}
                                     />
-                                    <div className='grid grid-cols-1 md:grid-cols-3'>
+                                    <div className='flex flex-col gap-3'>
                                         <ErrorMessage name='location.province' component={'p'} className='text-red-500'/>
                                         <ErrorMessage name='location.city' component={'p'} className='text-red-500'/>
                                         <ErrorMessage name='location.direction' component={'p'} className='text-red-500'/>
@@ -438,7 +446,29 @@ const addEvent = () => {
                                 />
                                 <ErrorMessage name='images' component={'p'} className='text-red-500'></ErrorMessage>
                             </div>
+                            
+                            {/* Terminos y condiciones */}
+                            <div className='p-2'>
+                                <Field
+                                    type="checkbox"
+                                    name="terms"
+                                    id="terms"
+                                    className="mr-2 scale-150"
+                                />
+                                <label htmlFor="terms">
+                                    Acepto los 
+                                    <Link to={'/'} target='_blank'> {/* Redirige a una página */}
+                                        <span className='underline p-1 text-indigo-to-yellow rounded hover:cursor-pointer hover:text-white-to-black hover:bg-indigo-to-yellow transition ease-in-out'>
+                                            terminos y condiciones.
+                                        </span>
+                                    </Link>
+                                </label>
+                                <ErrorMessage name='terms' component={'p'} className='text-red-500'></ErrorMessage>
+                            </div>
 
+                            <button type='submit' className='bg-indigo-to-yellow text-white-to-black font-Bitcount text-2xl w-full my-5 py-3 rounded-2xl hover:scale-103 transition ease-in-out hover:cursor-pointer  '>
+                                Crear Evento
+                            </button>
                         </div>
                     </Form>
             )}

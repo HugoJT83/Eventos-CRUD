@@ -55,8 +55,8 @@ class User(BaseModel):
     
 
 class Address(BaseModel):
-    country:str
-    state:str
+    province:str
+    city:str
    
 
 class UserProfile(BaseModel):

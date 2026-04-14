@@ -12,6 +12,8 @@ import { toast } from 'react-toastify'
 import { axiosClient } from '../../../../utils/axiosClient'
 import Interest from './Interest'
 import { INTERESTS_CONFIG } from '../../../../constant/interestsConfig'
+import { GetCountries, GetState } from 'react-country-state-city'
+import LocationSelect from './LocationSelect'
 
 const Details = () => {
 
@@ -30,7 +32,6 @@ const Details = () => {
         }
     }
 
-
     /* Obtencion de datos */
     const {user,fetchUserProfile} = useAuthContext()
     const [initialValues,setInitialValues] = useState({
@@ -38,17 +39,13 @@ const Details = () => {
         description:user.description,
         interests:user.interests,
         address:{
-            country: user.address?.country || "",
-            state: user.address?.state || ""
+            province: user.address?.province || "",
+            city: user.address?.city || ""
         }
     })
 
     const validationSchema = yup.object({
         name: yup.string().required("El nombre es obligatorio").max(30, "el nombre no puede tener más de 30 caracteres"),
-        address:yup.object({
-            country: yup.string().max(20, "La ciudad no puede tener más de 20 caracteres"),
-            state: yup.string().max(20, "La provincia no puede tener más de 20 caracteres")
-        }),
         description: yup.string().max(500, "La descripción no puede tener más de 500 caracteres"),
         interests:yup.array().of(yup.string()).max(4,"Solo puedes elegir hasta 4 intereses")
     })
@@ -58,10 +55,6 @@ const Details = () => {
         const cleanValues = {
             ...values,
             name: values.name.trim(),
-            address:{
-                country: values.address.country.trim(),
-                state: values.address.state.trim()
-            },
             description: values.description.trim(),
         }
 
@@ -101,7 +94,7 @@ const Details = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmitHandler}
             >
-            {({values,setFieldValue}) =>(
+            {({values,setFieldValue, setFieldTouched}) =>(
                 
             
                 <Form>
@@ -150,36 +143,25 @@ const Details = () => {
                                 {editingId === 2 ?
                                     <>
                                         <div className=''>
-                                            <Field 
-                                            className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-to-black p-1 rounded-xl focus:outline-indigo-700" 
-                                            type="text"
-                                            placeholder="Ciudad"
-                                            name="address.country"
-                                            maxLength={20}
+                                            <LocationSelect
+                                                setFieldValue={setFieldValue}
+                                                values={values}
+                                                setFieldTouched={setFieldTouched}
+                                                editingId={editingId}
                                             />
-                                            <ErrorMessage name="address.country" component={'p'} className='text-red-500'></ErrorMessage>
-                                            <span className='text-xl text-indigo-400'> , </span>
-                                            <Field
-                                            className="text-2xl max-w-60 bg-slate-100 border-2 border-indigo-to-black p-1 rounded-xl focus:outline-indigo-700"
-                                            type="text"
-                                            placeholder="Provincia"
-                                            name="address.state"
-                                            maxLength={20}
-                                            />
-                                            <ErrorMessage name="address.star" component={'p'} className='text-red-500'></ErrorMessage>
+                                            <ErrorMessage name="address" component={'p'} className='text-red-500'></ErrorMessage>
                                             <br />
-                                            <span className='text-gray-to-black'>Puedes indicar ambas o solo una, como tu prefieras.</span>
                                         </div> 
                                         
                                     </>:
                                     <>
-                                        {user.address && (user.address.country || user.address.state) ?
+                                        {user.address && (user.address.province || user.address.city) ?
                                             <>
-                                                <p className='text-2xl text-black'>
-                                                    {user.address.country && user.address.state ?
-                                                        `${user.address.country}, ${user.address.state}`
-                                                        : (user.address.country || user.address.state)
-                                                    }    
+                                                <p className='text-xl text-black'>
+                                                    {user.address.province && user.address.city ?
+                                                        `${user.address.province}, ${user.address.city}`
+                                                        : (user.address.province || user.address.city)
+                                                    }  
                                                 </p>
                                                 
                                             </>:
